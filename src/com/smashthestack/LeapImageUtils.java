@@ -40,10 +40,6 @@ class LeapImageUtils {
 		}
 	}
 	
-	public static void getImageUndistorted(){
-		
-	}
-	
 	public static Mat convertToMat(Image image){
 		Mat convertedImage;
 		Mat denoisedImage;

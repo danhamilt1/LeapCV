@@ -12,18 +12,17 @@ import org.opencv.highgui.Highgui;
 import com.leapmotion.leap.Controller.PolicyFlag;
 
 public class Main {
-	private static com.leapmotion.leap.Controller leapController;
 	private static LeapImageUtils util;
 	public static void main(String[] args) throws InvalidObjectException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
-		leapController = new com.leapmotion.leap.Controller();
-		leapController.setPolicy(PolicyFlag.POLICY_IMAGES);
+		LeapImages images = new LeapImages();
 		
-		LeapImages images = new LeapImages(leapController);
+		images.initDistortionMat(LeapImages.LEFT_IMAGE_KEY, LeapImages.LEFT_IMAGE_ID);
+		
 		
 		for(int i = 0; i < 300; ++i){
-			Highgui.imwrite("img"+ i + ".png", images.getImages().get(LeapImages.LEFT_IMAGE_KEY));
+			Highgui.imwrite("img"+ i + ".png", images.getLeftImageUndistorted());
 			images.moveToNextValidFrame();
 			System.out.println("Image" + i);
 			
