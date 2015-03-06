@@ -5,6 +5,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import com.leapmotion.leap.Image;
+
 public class LeapCVCamera {
 
 	public enum CameraSide {
@@ -63,22 +65,25 @@ public class LeapCVCamera {
 		return currentImage;
 	}
 
-	public void setCurrentImage(LeapCVImage currentImage) {
-		this.currentImage = currentImage;
+	public void setCurrentImage(Image image) {
+		if(this.currentImage == null){
+			this.currentImage = new LeapCVImage(image);
+		} else {
+			this.currentImage.setImage(image);
+		}
 	}
 
 	 public Mat getImageUndistorted() {
 		 Mat processedImage = new Mat();
-		 Mat resizedImage = new Mat();
 		 Point center = new Point(LeapImageUtils.IMAGE_WIDTH / 2,
 		 LeapImageUtils.IMAGE_HEIGHT / 2);
 		 Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
 				 this.distortionY, Imgproc.INTER_LINEAR);
-		 Imgproc.resize(processedImage, resizedImage, new Size(200, 200));
+		 Imgproc.resize(processedImage, processedImage, new Size(200, 200));
 		 // Imgproc.medianBlur(resizedImage, resizedImage, 3);
 		 // Imgproc.getRectSubPix(processedImage, new Size(320, 120), center,
 		 // resizedImage);
-		 return resizedImage;
+		 return processedImage;
 	 }
 
 }

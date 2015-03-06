@@ -60,10 +60,10 @@ public class LeapCVController {
 		for(int i = 0; i < this.currentImages.count(); ++i){
 			switch(this.currentImages.get(i).id()){
 			case LeapCVCamera.LEFT_ID:
-				this.leftCam.setCurrentImage(new LeapCVImage(this.currentImages.get(i)));
+				this.leftCam.setCurrentImage(this.currentImages.get(i));
 				break;
 			case LeapCVCamera.RIGHT_ID:
-				this.rightCam.setCurrentImage(new LeapCVImage(this.currentImages.get(i)));
+				this.rightCam.setCurrentImage(this.currentImages.get(i));
 				break;
 			}
 		}

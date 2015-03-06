@@ -43,6 +43,22 @@ public class ImagesTests {
 		Highgui.imwrite("img_right_u.png", controller.getRightImageUndistorted());
 	}
 	
+	@Test
+	public void testFrameRate(){
+		LeapCVController controller = new LeapCVController();
+		long startTime = System.nanoTime();
+		
+		for(int i = 0; i < NUM_FRAMES; ++i){
+			controller.moveToNextValidFrame();
+		}
+		
+		long endTime = System.nanoTime();
+		long elapsedTime = endTime - startTime;
+		long frameRate = NUM_FRAMES / (elapsedTime/1000000000);
+		System.out.println("Framerate: " + frameRate);
+		
+	}
+	
 //	@Test
 //	public void testGetImages(){
 //		LeapImages images = new LeapImages();

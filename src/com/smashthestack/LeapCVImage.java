@@ -18,7 +18,7 @@ public class LeapCVImage extends com.leapmotion.leap.Image{
 		return imageAsMat;
 	}
 
-	public void setImageAsMat(Mat imageAsMat) {
+	private void setImageAsMat(Mat imageAsMat) {
 		this.imageAsMat = imageAsMat;
 	}
 
@@ -26,7 +26,12 @@ public class LeapCVImage extends com.leapmotion.leap.Image{
 		return imageAsLeap;
 	}
 
-	public void setImageAsLeap(Image imageAsLeap) {
+	private void setImageAsLeap(Image imageAsLeap) {
 		this.imageAsLeap = imageAsLeap;
+	}
+	
+	public void setImage(Image image){
+		this.imageAsLeap = image;
+		this.imageAsMat = LeapImageUtils.convertToMat(image);
 	}
 }
