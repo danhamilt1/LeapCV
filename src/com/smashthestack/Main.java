@@ -16,14 +16,12 @@ public class Main {
 	public static void main(String[] args) throws InvalidObjectException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
-		LeapImages images = new LeapImages();
-		
-		images.initDistortionMat(LeapImages.LEFT_IMAGE_KEY, LeapImages.LEFT_IMAGE_ID);
+		LeapCVController controller = new LeapCVController();
 		
 		
 		for(int i = 0; i < 300; ++i){
-			Highgui.imwrite("img"+ i + ".png", images.getLeftImageUndistorted());
-			images.moveToNextValidFrame();
+			Highgui.imwrite("img"+ i + ".png", controller.getLeftImageUndistorted());
+			controller.moveToNextValidFrame();
 			System.out.println("Image" + i);
 			
 		}

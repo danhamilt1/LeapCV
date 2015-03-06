@@ -21,29 +21,33 @@ public class ImagesTests {
 	
 	@Test
 	public void testGetLeftImage() {
-		
-		LeapImages images = new LeapImages();
-		for(int i = 0; i < NUM_FRAMES; ++i){
-			Mat image = images.getLeftImage();
-			images.moveToNextValidFrame();
-			Highgui.imwrite("img" + "_left_" + ".png", image);
-		}
-
+		LeapCVController controller = new LeapCVController();
+		Highgui.imwrite("img_left.png", controller.getLeftImage());
 	}
 	
 	@Test
 	public void testGetRightImage(){
-		
-		LeapImages images = new LeapImages();
-		Mat image = images.getRightImage();
-		Highgui.imwrite("img" + "_right_" + ".png", image);
+		LeapCVController controller = new LeapCVController();
+		Highgui.imwrite("img_right.png", controller.getRightImage());
 	}
 	
 	@Test
-	public void testGetImages(){
-		LeapImages images = new LeapImages();
-		Map<String,Mat> image = images.getImages();
-		
+	public void testGetLeftImageUndistorted(){
+		LeapCVController controller = new LeapCVController();
+		Highgui.imwrite("img_left_u.png", controller.getLeftImageUndistorted());
 	}
+	
+	@Test
+	public void testGetRightImageUndistorted(){
+		LeapCVController controller = new LeapCVController();
+		Highgui.imwrite("img_right_u.png", controller.getRightImageUndistorted());
+	}
+	
+//	@Test
+//	public void testGetImages(){
+//		LeapImages images = new LeapImages();
+//		Map<String,Mat> image = images.getImages();
+//		
+//	}
 
 }
