@@ -12,7 +12,7 @@ import org.opencv.highgui.Highgui;
 import com.leapmotion.leap.Controller.PolicyFlag;
 
 public class Main {
-	private static LeapImageUtils util;
+	private static LeapCVImageUtils util;
 	public static void main(String[] args) throws InvalidObjectException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		

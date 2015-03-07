@@ -34,7 +34,7 @@ public class LeapCVCamera {
 	private LeapCVImage currentImage = null;
 
 	public LeapCVCamera(CameraSide side) {
-
+		this.side = side;
 	}
 
 	public Mat getDistortionX() {
@@ -75,12 +75,13 @@ public class LeapCVCamera {
 
 	 public Mat getImageUndistorted() {
 		 Mat processedImage = new Mat();
-		 Point center = new Point(LeapImageUtils.IMAGE_WIDTH / 2,
-		 LeapImageUtils.IMAGE_HEIGHT / 2);
+		 Point center = new Point(LeapCVImageUtils.IMAGE_WIDTH / 2,
+		 LeapCVImageUtils.IMAGE_HEIGHT / 2);
 		 Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
 				 this.distortionY, Imgproc.INTER_LINEAR);
-		 Imgproc.resize(processedImage, processedImage, new Size(200, 200));
-		 // Imgproc.medianBlur(resizedImage, resizedImage, 3);
+		 Imgproc.resize(processedImage, processedImage, new Size(640, 640));
+		 //Imgproc.medianBlur(processedImage, processedImage, 3);
+		 
 		 // Imgproc.getRectSubPix(processedImage, new Size(320, 120), center,
 		 // resizedImage);
 		 return processedImage;

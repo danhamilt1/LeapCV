@@ -13,7 +13,7 @@ import org.opencv.highgui.Highgui;
 import com.smashthestack.*;
 
 public class ImagesTests {
-	private static int NUM_FRAMES = 500;
+	private static int NUM_FRAMES = 100;
 	@Before
 	public void setUp() throws Exception {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -57,6 +57,16 @@ public class ImagesTests {
 		long frameRate = NUM_FRAMES / (elapsedTime/1000000000);
 		System.out.println("Framerate: " + frameRate);
 		
+	}
+	
+	@Test
+	public void testDisparity(){
+		LeapCVStereoUtils stereo = new LeapCVStereoUtils();
+		LeapCVController controller = new LeapCVController();
+		//Highgui.imwrite("disp1.png", stereo.getDisparityMap(controller.getRightImage(), controller.getLeftImage()));
+		Highgui.imwrite("disp2.png", stereo.getDisparityMap(controller.getLeftImageUndistorted(), controller.getRightImageUndistorted()));
+		Highgui.imwrite("displ.png", controller.getLeftImage());
+		Highgui.imwrite("dispr.png", controller.getRightImage());
 	}
 	
 //	@Test

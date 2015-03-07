@@ -26,7 +26,7 @@ import com.leapmotion.leap.Controller.PolicyFlag;
 import com.leapmotion.leap.ImageList;
 
 
-class LeapImageUtils {
+class LeapCVImageUtils {
 	public static final int IMAGE_WIDTH = 640;
 	public static final int IMAGE_HEIGHT = 240;
 	public static final String LEFT_IMAGE_KEY = "LEFT_IMAGE";
@@ -36,7 +36,7 @@ class LeapImageUtils {
 	
 	private Controller leapController = null;
 	
-	public LeapImageUtils(){
+	public LeapCVImageUtils(){
 		
 	}
 	

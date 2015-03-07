@@ -1,7 +1,9 @@
 package com.smashthestack;
 
 import java.io.InvalidObjectException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.opencv.core.CvType;
@@ -42,13 +44,13 @@ public class LeapCVController {
 	
 	private void initDistortionMats() {
 		// Initialise distortion mats for fast image remap
-		Map<String, Mat> mats = LeapImageUtils.initDistortionMat(this.leftCam.getCurrentImage().getImageAsLeap());
-		this.leftCam.setDistortionX(mats.get(LeapImageUtils.X_MAT_KEY));
-		this.leftCam.setDistortionY(mats.get(LeapImageUtils.Y_MAT_KEY));
+		Map<String, Mat> mats = LeapCVImageUtils.initDistortionMat(this.leftCam.getCurrentImage().getImageAsLeap());
+		this.leftCam.setDistortionX(mats.get(LeapCVImageUtils.X_MAT_KEY));
+		this.leftCam.setDistortionY(mats.get(LeapCVImageUtils.Y_MAT_KEY));
 
-		mats = LeapImageUtils.initDistortionMat(this.rightCam.getCurrentImage().getImageAsLeap());
-		this.rightCam.setDistortionX(mats.get(LeapImageUtils.X_MAT_KEY));
-		this.rightCam.setDistortionY(mats.get(LeapImageUtils.Y_MAT_KEY));
+		mats = LeapCVImageUtils.initDistortionMat(this.rightCam.getCurrentImage().getImageAsLeap());
+		this.rightCam.setDistortionX(mats.get(LeapCVImageUtils.X_MAT_KEY));
+		this.rightCam.setDistortionY(mats.get(LeapCVImageUtils.Y_MAT_KEY));
 	}
 
 	public void moveToNextValidFrame() {
@@ -83,6 +85,14 @@ public class LeapCVController {
 
 	public Mat getRightImageUndistorted(){
 		return this.rightCam.getImageUndistorted();
+	}
+	
+	public List<LeapCVCamera> getCameras(){
+		List<LeapCVCamera> cameras = new ArrayList<>();
+		cameras.add(leftCam);
+		cameras.add(rightCam);
+		
+		return cameras;
 	}
 
 }
