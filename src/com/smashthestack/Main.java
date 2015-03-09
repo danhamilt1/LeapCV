@@ -16,15 +16,14 @@ public class Main {
 	public static void main(String[] args) throws InvalidObjectException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
-		LeapCVController controller = new LeapCVController();
-		
-		
-		for(int i = 0; i < 300; ++i){
-			Highgui.imwrite("img"+ i + ".png", controller.getLeftImageUndistorted());
-			controller.moveToNextValidFrame();
-			System.out.println("Image" + i);
-			
-		}
+		LeapCVController leapController = new LeapCVController();
+		leapController.moveToNextValidFrame();
+		LeapCVStereoCalib sc = new LeapCVStereoCalib(leapController.getCameras().get(0), leapController.getCameras().get(1));
+		sc.findChessboardCorners();
+		//sc.addChessboardCorners();
+		leapController.moveToNextValidFrame();
+		sc.findChessboardCorners();
+		sc.calibrateLeapCameras();
 		
 		//Highgui.imencode(".bmp", images.get(0), byteMat);
 		

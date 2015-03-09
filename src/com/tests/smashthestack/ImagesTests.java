@@ -19,45 +19,45 @@ public class ImagesTests {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 	
-	@Test
-	public void testGetLeftImage() {
-		LeapCVController controller = new LeapCVController();
-		Highgui.imwrite("img_left.png", controller.getLeftImage());
-	}
-	
-	@Test
-	public void testGetRightImage(){
-		LeapCVController controller = new LeapCVController();
-		Highgui.imwrite("img_right.png", controller.getRightImage());
-	}
-	
-	@Test
-	public void testGetLeftImageUndistorted(){
-		LeapCVController controller = new LeapCVController();
-		Highgui.imwrite("img_left_u.png", controller.getLeftImageUndistorted());
-	}
-	
-	@Test
-	public void testGetRightImageUndistorted(){
-		LeapCVController controller = new LeapCVController();
-		Highgui.imwrite("img_right_u.png", controller.getRightImageUndistorted());
-	}
-	
-	@Test
-	public void testFrameRate(){
-		LeapCVController controller = new LeapCVController();
-		long startTime = System.nanoTime();
-		
-		for(int i = 0; i < NUM_FRAMES; ++i){
-			controller.moveToNextValidFrame();
-		}
-		
-		long endTime = System.nanoTime();
-		long elapsedTime = endTime - startTime;
-		long frameRate = NUM_FRAMES / (elapsedTime/1000000000);
-		System.out.println("Framerate: " + frameRate);
-		
-	}
+//	@Test
+//	public void testGetLeftImage() {
+//		LeapCVController controller = new LeapCVController();
+//		Highgui.imwrite("img_left.png", controller.getLeftImage());
+//	}
+//	
+//	@Test
+//	public void testGetRightImage(){
+//		LeapCVController controller = new LeapCVController();
+//		Highgui.imwrite("img_right.png", controller.getRightImage());
+//	}
+//	
+//	@Test
+//	public void testGetLeftImageUndistorted(){
+//		LeapCVController controller = new LeapCVController();
+//		Highgui.imwrite("img_left_u.png", controller.getLeftImageUndistorted());
+//	}
+//	
+//	@Test
+//	public void testGetRightImageUndistorted(){
+//		LeapCVController controller = new LeapCVController();
+//		Highgui.imwrite("img_right_u.png", controller.getRightImageUndistorted());
+//	}
+//	
+//	@Test
+//	public void testFrameRate(){
+//		LeapCVController controller = new LeapCVController();
+//		long startTime = System.nanoTime();
+//		
+//		for(int i = 0; i < NUM_FRAMES; ++i){
+//			controller.moveToNextValidFrame();
+//		}
+//		
+//		long endTime = System.nanoTime();
+//		long elapsedTime = endTime - startTime;
+//		long frameRate = NUM_FRAMES / (elapsedTime/1000000000);
+//		System.out.println("Framerate: " + frameRate);
+//		
+//	}
 	
 	@Test
 	public void testDisparity(){

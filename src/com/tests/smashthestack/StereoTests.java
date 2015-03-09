@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.opencv.core.Core;
+import org.opencv.imgproc.Imgproc;
 
 import com.smashthestack.LeapCVController;
 import com.smashthestack.LeapCVStereoUtils;
@@ -30,7 +31,13 @@ public class StereoTests {
 		leapController.moveToNextValidFrame();
 		LeapCVStereoCalib sc = new LeapCVStereoCalib(leapController.getCameras().get(0), leapController.getCameras().get(1));
 		sc.findChessboardCorners();
-		sc.addChessboardCorners();
+	    
+		//sc.addChessboardCorners();
+		leapController.moveToNextValidFrame();
+		sc.findChessboardCorners();
+		//sc.findChessboardCorners();
+		//sc.findChessboardCorners();
+		sc.calibrateLeapCameras();
 	}
 
 }
