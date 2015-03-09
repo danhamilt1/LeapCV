@@ -2,10 +2,14 @@ package com.smashthestack;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.ByteArrayInputStream;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
 import com.leapmotion.leap.Controller;
 
@@ -26,7 +30,7 @@ import com.leapmotion.leap.Controller.PolicyFlag;
 import com.leapmotion.leap.ImageList;
 
 
-class LeapCVImageUtils {
+public class LeapCVImageUtils {
 	public static final int IMAGE_WIDTH = 640;
 	public static final int IMAGE_HEIGHT = 240;
 	public static final String LEFT_IMAGE_KEY = "LEFT_IMAGE";
@@ -113,4 +117,34 @@ class LeapCVImageUtils {
 			throw new InvalidObjectException("Leap motion has not been initialised");			
 		}
 	}
+	
+    public static BufferedImage toBufferedImage(Image toProcess){
+        int type = BufferedImage.TYPE_BYTE_GRAY;
+        int bufferSize = toProcess.width()*toProcess.height()*toProcess.bytesPerPixel();
+        byte [] b = new byte[bufferSize];
+        b = toProcess.data();// get all the pixels
+        
+        BufferedImage bufferedImage = new BufferedImage(640,240, type);
+        final byte[] targetPixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
+        System.arraycopy(b, 0, targetPixels, 0, b.length);  
+        return bufferedImage;
+    }
+    
+    public static WritableImage toWritableImage(BufferedImage image){
+    	//BufferedImage image = toBufferedImage(toProcess);
+    	WritableImage wImage = new WritableImage(image.getWidth(), image.getHeight());
+    	PixelWriter pw = wImage.getPixelWriter();
+    	for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                pw.setArgb(x, y, image.getRGB(x, y));
+            }
+        }
+    	return wImage;
+    }
+    
+    public static javafx.scene.image.Image matToWritableImage(Mat image){
+    	MatOfByte byteMat = new MatOfByte();
+    	Highgui.imencode(".bmp", image, byteMat);
+    	return new javafx.scene.image.Image(new ByteArrayInputStream(byteMat.toArray()));
+    }
 }
