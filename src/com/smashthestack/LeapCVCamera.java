@@ -75,8 +75,6 @@ public class LeapCVCamera {
 
 	 public Mat getImageUndistorted() {
 		 Mat processedImage = new Mat();
-		 Point center = new Point(LeapCVImageUtils.IMAGE_WIDTH / 2,
-		 LeapCVImageUtils.IMAGE_HEIGHT / 2);
 		 Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
 				 this.distortionY, Imgproc.INTER_LINEAR);
 		 Imgproc.resize(processedImage, processedImage, new Size(640, 480));

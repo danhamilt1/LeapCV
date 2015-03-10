@@ -71,7 +71,6 @@ public class LeapCVImageUtils {
 		
 		convertedImage.put(0, 0, image.data());
 		Photo.fastNlMeansDenoising(convertedImage, denoisedImage, 1, 7, 3);
-
 		return denoisedImage;
 	}
 	
