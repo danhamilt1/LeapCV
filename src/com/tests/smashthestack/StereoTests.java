@@ -28,12 +28,12 @@ public class StereoTests {
 	@Test
 	public void test() {
 		LeapCVController leapController = new LeapCVController();
-		leapController.moveToNextValidFrame();
+		leapController.nextValidFrame();
 		LeapCVStereoCalib sc = new LeapCVStereoCalib(leapController.getCameras().get(0), leapController.getCameras().get(1));
 		sc.findChessboardCorners();
 	    
 		//sc.addChessboardCorners();
-		leapController.moveToNextValidFrame();
+		leapController.nextValidFrame();
 		sc.findChessboardCorners();
 		//sc.findChessboardCorners();
 		//sc.findChessboardCorners();

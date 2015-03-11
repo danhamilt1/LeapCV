@@ -45,7 +45,7 @@ public class LeapCVImageUtils {
 	}
 	
 	/**
-	 * Initialise leap motion controller, waits for the first valid frame
+	 * Initialize leap motion controller and wait for the first valid frame to be received
 	 */
 	public void initLeap(){
 		this.leapController = new Controller();
@@ -64,14 +64,14 @@ public class LeapCVImageUtils {
 	 */
 	public static Mat convertToMat(Image image){
 		Mat convertedImage;
-		Mat denoisedImage;
+		//Mat denoisedImage;
 		
 		convertedImage = new Mat(image.height(), image.width(), CvType.CV_8UC1);
-		denoisedImage = new Mat();
+		//denoisedImage = new Mat();
 		
 		convertedImage.put(0, 0, image.data());
-		Photo.fastNlMeansDenoising(convertedImage, denoisedImage, 1, 7, 3);
-		return denoisedImage;
+		//Photo.fastNlMeansDenoising(convertedImage, convertedImage, 5, 7, 50);
+		return convertedImage;
 	}
 	
 	/**
@@ -111,12 +111,21 @@ public class LeapCVImageUtils {
 		return retVal;
 	}
 	
+	/**
+	 * Check if the leap motion controller has been initialized
+	 * @throws InvalidObjectException
+	 */
 	private void isLeapInitialised() throws InvalidObjectException{
 		if(this.leapController == null){
 			throw new InvalidObjectException("Leap motion has not been initialised");			
 		}
 	}
 	
+	/**
+	 * Turn a leap motion {@link Image} type into a {@link BufferedImage}
+	 * @param toProcess - {@link Image}
+	 * @return {@link BufferedImage}
+	 */
     public static BufferedImage toBufferedImage(Image toProcess){
         int type = BufferedImage.TYPE_BYTE_GRAY;
         int bufferSize = toProcess.width()*toProcess.height()*toProcess.bytesPerPixel();
@@ -129,6 +138,11 @@ public class LeapCVImageUtils {
         return bufferedImage;
     }
     
+    /**
+     * Turn a {@link BufferedImage} into a {@link WritableImage}, useful for displaying in JavaFX
+     * @param image - {@link BufferedImage}
+     * @return {@link WritableImage}
+     */
     public static WritableImage toWritableImage(BufferedImage image){
     	//BufferedImage image = toBufferedImage(toProcess);
     	WritableImage wImage = new WritableImage(image.getWidth(), image.getHeight());
@@ -141,6 +155,11 @@ public class LeapCVImageUtils {
     	return wImage;
     }
     
+    /**
+     * Turn a {@link Mat} into a {@link WritableImage}, useful for displaying in JavaFX
+     * @param image - {@link Mat}
+     * @return {@link WritableImage}
+     */
     public static javafx.scene.image.Image matToWritableImage(Mat image){
     	MatOfByte byteMat = new MatOfByte();
     	Highgui.imencode(".bmp", image, byteMat);

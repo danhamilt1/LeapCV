@@ -16,6 +16,7 @@ import org.opencv.core.MatOfPoint3;
 import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.photo.Photo;
 
 public class LeapCVStereoUtils {
 	
@@ -133,6 +134,36 @@ public class LeapCVStereoUtils {
 		Core.normalize(disp, disp, 0, 255, Core.NORM_MINMAX);
 		
 		return disp;
+	}
+	
+	public Mat getDisparityMap2(Mat left, Mat right){
+		StereoBM stereo = new StereoBM(StereoBM.FISH_EYE_PRESET,32,7);
+		Mat disparityMap = new Mat(0,0,type);
+		
+		stereo.compute(left, right, disparityMap);
+		Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
+		
+		return disparityMap;
+	}
+	
+	public Mat getDisparityMap3(Mat left, Mat right){
+		StereoSGBM stereo = new StereoSGBM(0, 
+										   16, 
+										   6,
+										   8*6*6, 
+										   32*6*6, 
+										   100, 
+										   0, 
+										   0, 
+										   0, 
+										   0, 
+										   true);
+		Mat disparityMap = new Mat(0,0,type);
+		
+		stereo.compute(left, right, disparityMap);
+		Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
+		
+		return disparityMap;
 	}
 	
 	public Mat getPointCloud(Mat disparityMap){

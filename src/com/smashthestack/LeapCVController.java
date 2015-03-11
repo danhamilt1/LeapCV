@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.geometry.Side;
+
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
@@ -34,14 +36,20 @@ public class LeapCVController {
 		this.initDistortionMats();
 	}
 
+	/**
+	 * Initialize leap controller and wait for the next valid frame to be received
+	 */
 	private void initLeap() {
 		this.leapController.setPolicy(PolicyFlag.POLICY_IMAGES);
 		this.leftCam = new LeapCVCamera(LeapCVCamera.CameraSide.LEFT);
 		this.rightCam = new LeapCVCamera(LeapCVCamera.CameraSide.RIGHT);
 		
-		this.moveToNextValidFrame();
+		this.nextValidFrame();
 	}
 	
+	/**
+	 * Initialize the leap motion controller distortion matrices for the left and right camera
+	 */
 	private void initDistortionMats() {
 		// Initialise distortion mats for fast image remap
 		Map<String, Mat> mats = LeapCVImageUtils.initDistortionMat(this.leftCam.getCurrentImage().getImageAsLeap());
@@ -53,7 +61,10 @@ public class LeapCVController {
 		this.rightCam.setDistortionY(mats.get(LeapCVImageUtils.Y_MAT_KEY));
 	}
 
-	public void moveToNextValidFrame() {
+	/**
+	 * Move the leap motion controller on to the next valid frame
+	 */
+	public void nextValidFrame() {
 		this.currentImages = this.leapController.images();
 		while (!this.currentImages.get(0).isValid()) {
 			this.currentImages = this.leapController.images();
@@ -71,22 +82,42 @@ public class LeapCVController {
 		}
 	}
 	
+	/**
+	 * Get raw image from the left side camera
+	 * @return {@link Mat}
+	 */
 	public Mat getLeftImage(){
 		return this.leftCam.getCurrentImage().getImageAsMat();
 	}
 	
+	/**
+	 * Get raw image from the right side camera
+	 * @return {@link Mat}
+	 */
 	public Mat getRightImage(){
 		return this.rightCam.getCurrentImage().getImageAsMat();
 	}
 	
+	/**
+	 * Get undistorted image from the left side camera
+	 * @return {@link Mat}
+	 */
 	public Mat getLeftImageUndistorted(){
 		return this.leftCam.getImageUndistorted();
 	}
 
+	/**
+	 * Get undistorted image from the right side camera
+	 * @return
+	 */
 	public Mat getRightImageUndistorted(){
 		return this.rightCam.getImageUndistorted();
 	}
 	
+	/**
+	 * Get the {@link LeapCVCamera} objects from the {@link LeapCVController}
+	 * @return {@link List} - containing {@link LeapCVCamera}
+	 */
 	public List<LeapCVCamera> getCameras(){
 		List<LeapCVCamera> cameras = new ArrayList<>();
 		cameras.add(leftCam);

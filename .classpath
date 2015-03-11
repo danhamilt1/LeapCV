@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/leap_osx"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv_osx"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/leap-linux"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv-linux"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
