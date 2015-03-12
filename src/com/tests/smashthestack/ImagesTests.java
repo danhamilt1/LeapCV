@@ -59,14 +59,20 @@ public class ImagesTests {
 //		
 //	}
 	
+//	@Test
+//	public void testDisparity(){
+//		LeapCVStereoUtils stereo = new LeapCVStereoUtils();
+//		LeapCVController controller = new LeapCVController();
+//		//Highgui.imwrite("disp1.png", stereo.getDisparityMap(controller.getRightImage(), controller.getLeftImage()));
+//		Highgui.imwrite("disp2.png", stereo.getDisparityMap(controller.getLeftImageUndistorted(), controller.getRightImageUndistorted()));
+//		Highgui.imwrite("displ.png", controller.getLeftImage());
+//		Highgui.imwrite("dispr.png", controller.getRightImage());
+//	}
+	
 	@Test
-	public void testDisparity(){
-		LeapCVStereoUtils stereo = new LeapCVStereoUtils();
+	public void testSift(){
 		LeapCVController controller = new LeapCVController();
-		//Highgui.imwrite("disp1.png", stereo.getDisparityMap(controller.getRightImage(), controller.getLeftImage()));
-		Highgui.imwrite("disp2.png", stereo.getDisparityMap(controller.getLeftImageUndistorted(), controller.getRightImageUndistorted()));
-		Highgui.imwrite("displ.png", controller.getLeftImage());
-		Highgui.imwrite("dispr.png", controller.getRightImage());
+		LeapCVObjectDetector.sift(controller.getLeftImageUndistorted());
 	}
 	
 //	@Test
