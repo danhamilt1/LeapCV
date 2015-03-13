@@ -72,7 +72,7 @@ public class ImagesTests {
 	@Test
 	public void testSift(){
 		LeapCVController controller = new LeapCVController();
-		LeapCVObjectDetector.sift(controller.getLeftImageUndistorted());
+		//LeapCVObjectDetector.sift(controller.getLeftImageUndistorted());
 	}
 	
 //	@Test

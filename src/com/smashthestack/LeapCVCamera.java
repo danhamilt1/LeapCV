@@ -77,7 +77,7 @@ public class LeapCVCamera {
 		 Mat processedImage = new Mat();
 		 Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
 				 this.distortionY, Imgproc.INTER_LINEAR);
-		 Imgproc.resize(processedImage, processedImage, new Size(640, 480));
+		 Imgproc.resize(processedImage, processedImage, new Size(640, 640));
 		 //Imgproc.medianBlur(processedImage, processedImage, 3);
 		 
 		 // Imgproc.getRectSubPix(processedImage, new Size(320, 120), center,
