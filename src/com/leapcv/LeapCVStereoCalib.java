@@ -1,4 +1,4 @@
-package com.smashthestack;
+package com.leapcv;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +19,8 @@ import org.opencv.features2d.DMatch;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
-import com.smashthestack.LeapCVCamera;
-import com.smashthestack.LeapCVCamera.CameraSide;
+import com.leapcv.LeapCVCamera;
+import com.leapcv.LeapCVCamera.CameraSide;
 
 
 public class LeapCVStereoCalib {

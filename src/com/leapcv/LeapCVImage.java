@@ -1,4 +1,4 @@
-package com.smashthestack;
+package com.leapcv;
 
 import org.opencv.core.Mat;
 

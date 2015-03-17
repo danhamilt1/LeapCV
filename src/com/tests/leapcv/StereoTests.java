@@ -1,4 +1,4 @@
-package com.tests.smashthestack;
+package com.tests.leapcv;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.opencv.core.Core;
 import org.opencv.imgproc.Imgproc;
 
-import com.smashthestack.LeapCVController;
-import com.smashthestack.LeapCVStereoUtils;
-import com.smashthestack.LeapCVStereoCalib;
+import com.leapcv.LeapCVController;
+import com.leapcv.LeapCVStereoCalib;
+import com.leapcv.LeapCVStereoUtils;
 
 public class StereoTests {
 

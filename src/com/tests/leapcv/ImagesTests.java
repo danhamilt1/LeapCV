@@ -1,4 +1,4 @@
-package com.tests.smashthestack;
+package com.tests.leapcv;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
-import com.smashthestack.*;
+import com.leapcv.*;
 
 public class ImagesTests {
 	private static int NUM_FRAMES = 100;

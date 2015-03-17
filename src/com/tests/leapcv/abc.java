@@ -1,4 +1,4 @@
-package com.tests.smashthestack;
+package com.tests.leapcv;
 
 import static org.junit.Assert.*;
 
