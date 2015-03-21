@@ -13,11 +13,7 @@ import javafx.scene.image.WritableImage;
 
 import com.leapmotion.leap.Controller;
 
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.core.MatOfInt;
+import org.opencv.core.*;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.photo.Photo;
@@ -164,5 +160,11 @@ public class LeapCVImageUtils {
     	MatOfByte byteMat = new MatOfByte();
     	Highgui.imencode(".bmp", image, byteMat);
     	return new javafx.scene.image.Image(new ByteArrayInputStream(byteMat.toArray()));
+    }
+
+    public static Mat gaussianBlur(Mat image) {
+        double sigmaX = 0.9;
+        Imgproc.GaussianBlur(image, image, new Size(11, 11), sigmaX);
+        return image;
     }
 }

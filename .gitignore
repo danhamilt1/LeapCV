@@ -2,3 +2,4 @@
 /bin
 *.png
 .DS_Store
+*.iml

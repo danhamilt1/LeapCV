@@ -2,6 +2,7 @@ package com.leapcv;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
@@ -75,9 +76,30 @@ public class LeapCVCamera {
 
 	 public Mat getImageUndistorted() {
 		 Mat processedImage = new Mat();
-		 Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
+         int width;
+         int height;
+         int x;
+         int y;
+
+         Imgproc.remap(this.currentImage.getImageAsMat(), processedImage, this.distortionX,
 				 this.distortionY, Imgproc.INTER_LINEAR);
-		 Imgproc.resize(processedImage, processedImage, new Size(640, 640));
+
+         width = processedImage.cols();
+         height = processedImage.rows();
+
+         System.out.println("width: " + width + " height: " + height);
+
+         x = (int)(width*0.3);
+         y = (int)(height*0.3);
+         width = width - x*2;
+         height = height - y*2;
+
+         System.out.println(" x: " + x + " y: " + y + " width: " + width + " height: " + height);
+
+         Rect roi = new Rect(x, y, width, height);
+         processedImage = processedImage.submat(roi);
+
+		 Imgproc.resize(processedImage, processedImage, new Size(240, 240));
 		 //Imgproc.medianBlur(processedImage, processedImage, 3);
 		 
 		 // Imgproc.getRectSubPix(processedImage, new Size(320, 120), center,
