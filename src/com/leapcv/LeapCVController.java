@@ -52,10 +52,16 @@ public class LeapCVController {
      * Move the leap motion controller on to the next valid frame
      */
     public void nextValidFrame() {
+        final int MAX_INVALID_FRAMES = 100;
+        int framesInvalid = 0;
         this.currentImages = this.leapController.images();
-        while (!this.currentImages.get(0).isValid()) {
+
+        while (!this.currentImages.get(0).isValid() && framesInvalid < MAX_INVALID_FRAMES) {
             this.currentImages = this.leapController.images();
+            ++framesInvalid;
         }
+
+        //if(framesInvalid == MAX_INVALID_FRAMES)
 
         for (int i = 0; i < this.currentImages.count(); ++i) {
             switch (this.currentImages.get(i).id()) {

@@ -27,40 +27,40 @@ public class LeapCVImageUtils {
     public static final String X_MAT_KEY = "X";
     public static final String Y_MAT_KEY = "Y";
 
-    private Controller leapController = null;
+    //private Controller leapController = null;
 
     public LeapCVImageUtils() {
 
     }
 
-    /**
-     * Initialize leap motion controller and wait for the first valid frame to be received
-     */
-    public void initLeap() {
-        this.leapController = new Controller();
-        this.leapController.setPolicy(PolicyFlag.POLICY_IMAGES);
-
-		/* Wait for some valid frames to come through */
-        while (!this.leapController.frame().isValid()) {
-            System.out.println("initializing...");
-        }
-    }
+//    /**
+//     * Initialize leap motion controller and wait for the first valid frame to be received
+//     */
+//    public void initLeap() {
+//        this.leapController = new Controller();
+//        this.leapController.setPolicy(PolicyFlag.POLICY_IMAGES);
+//
+//		/* Wait for some valid frames to come through */
+//        while (!this.leapController.frame().isValid()) {
+//            System.out.println("initializing...");
+//        }
+//    }
 
     /**
      * Convert a leap type {@link Image} to an OpenCV {@link Mat}
      *
      * @param image of type {@link Image}
-     * @return {@link Mat} of original image
+     * @return {@link Mat} of original image,
      */
     public static Mat convertToMat(Image image) {
         Mat convertedImage;
-        //Mat denoisedImage;
-
         convertedImage = new Mat(image.height(), image.width(), CvType.CV_8UC1);
-        //denoisedImage = new Mat();
-
         convertedImage.put(0, 0, image.data());
-        //Photo.fastNlMeansDenoising(convertedImage, convertedImage, 5, 7, 5);
+
+        if(convertedImage.width() == 0){
+            convertedImage = null;
+        }
+
         return convertedImage;
     }
 
@@ -102,16 +102,16 @@ public class LeapCVImageUtils {
         return retVal;
     }
 
-    /**
-     * Check if the leap motion controller has been initialized
-     *
-     * @throws InvalidObjectException
-     */
-    private void isLeapInitialised() throws InvalidObjectException {
-        if (this.leapController == null) {
-            throw new InvalidObjectException("Leap motion has not been initialised");
-        }
-    }
+//    /**
+//     * Check if the leap motion controller has been initialized
+//     *
+//     * @throws InvalidObjectException
+//     */
+//    private void isLeapInitialised() throws InvalidObjectException {
+//        if (this.leapController == null) {
+//            throw new InvalidObjectException("Leap motion has not been initialised");
+//        }
+//    }
 
     /**
      * Turn a leap motion {@link Image} type into a {@link BufferedImage}

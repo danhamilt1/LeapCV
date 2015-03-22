@@ -11,11 +11,19 @@ public class Main {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         LeapCVController leapController = new LeapCVController();
-        leapController.nextValidFrame();
+        try {
+            leapController.nextValidFrame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         LeapCVStereoCalib sc = new LeapCVStereoCalib(leapController.getCameras().get(0), leapController.getCameras().get(1));
         sc.findChessboardCorners();
         //sc.addChessboardCorners();
-        leapController.nextValidFrame();
+        try {
+            leapController.nextValidFrame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         sc.findChessboardCorners();
         sc.calibrateLeapCameras();
 

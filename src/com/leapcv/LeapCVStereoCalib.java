@@ -44,7 +44,7 @@ public class LeapCVStereoCalib {
             Highgui.imwrite("chess_" + image.toString() + ".png", image);
 
             if (this.corners.get(camera.getSide().getSideId()) == null) {
-                this.corners.put(camera.getSide().getSideId(), new ArrayList<>());
+                this.corners.put(camera.getSide().getSideId(), new ArrayList<Mat>());
             }
 
             this.corners.get(camera.getSide().getSideId()).add(corners);
