@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class to be initialised to interface with the leap motion.
+ */
 public class LeapCVController {
 
     private ImageList currentImages = null;
@@ -17,6 +20,9 @@ public class LeapCVController {
     private LeapCVCamera leftCam;
     private LeapCVCamera rightCam;
 
+    /**
+     * Constructor for {@link com.leapcv.LeapCVController}
+     */
     public LeapCVController() {
         this.leapController = new Controller();
         this.initLeap();

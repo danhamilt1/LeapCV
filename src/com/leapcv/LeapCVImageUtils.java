@@ -57,7 +57,7 @@ public class LeapCVImageUtils {
         convertedImage = new Mat(image.height(), image.width(), CvType.CV_8UC1);
         convertedImage.put(0, 0, image.data());
 
-        if(convertedImage.width() == 0){
+        if (convertedImage.width() == 0) {
             convertedImage = null;
         }
 
@@ -116,18 +116,20 @@ public class LeapCVImageUtils {
     /**
      * Turn a leap motion {@link Image} type into a {@link BufferedImage}
      *
-     * @param toProcess - {@link Image}
+     * @param image - {@link Image}
      * @return {@link BufferedImage}
      */
-    public static BufferedImage toBufferedImage(Image toProcess) {
+    public static BufferedImage toBufferedImage(Image image) {
         int type = BufferedImage.TYPE_BYTE_GRAY;
-        int bufferSize = toProcess.width() * toProcess.height() * toProcess.bytesPerPixel();
-        byte[] b = new byte[bufferSize];
-        b = toProcess.data();// get all the pixels
+        byte[] imagePixels;
 
-        BufferedImage bufferedImage = new BufferedImage(640, 240, type);
-        final byte[] targetPixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
-        System.arraycopy(b, 0, targetPixels, 0, b.length);
+        // Get all the pixels
+        imagePixels = image.data();
+
+        // Write all of the pixels to the buffer in a new BufferedImage
+        BufferedImage bufferedImage = new BufferedImage(image.width(), image.height(), type);
+        final byte[] bufferedImagePixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
+        System.arraycopy(imagePixels, 0, bufferedImagePixels, 0, imagePixels.length);
         return bufferedImage;
     }
 
