@@ -8,11 +8,15 @@ import org.opencv.highgui.Highgui;
 
 import java.util.List;
 
+/**
+ * Test the performance of the LeapCV functionality
+ */
 public class LeapCVPerformanceTest extends TestCase {
     LeapCVController controller;
     Mat leftImage = null;
     Mat rightImage = null;
     List<LeapCVCamera> cameras = null;
+    final int NUM_TESTS = 20;
     final int NUM_FRAMES = 100;
     final int MIN_FRAMERATE = 15;
 
@@ -22,7 +26,79 @@ public class LeapCVPerformanceTest extends TestCase {
         this.controller = new LeapCVController();
     }
 
-    public void testFrameRateGetImage(){
+    public void testGetImage(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetImage();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    public void testGetImageUndistorted(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetImageUndistorted();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    public void testGetDisparity(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetDisparity();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    public void testGetDisparity2(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetDisparity2();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    public void testGetDisparity3(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetDisparity3();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    public void testGetPointCloud(){
+        double average = 0;
+
+        for(int i = 0; i < NUM_TESTS; ++i){
+            average += testFrameRateGetPointCloud();
+        }
+
+        average = average/NUM_TESTS;
+        System.out.println("Average: " + average);
+        assertTrue(average > MIN_FRAMERATE);
+    }
+
+    private double testFrameRateGetImage(){
         long start = 0;
         long stop = 0;
 
@@ -41,12 +117,14 @@ public class LeapCVPerformanceTest extends TestCase {
         double fps = NUM_FRAMES/seconds;
 
         System.out.println("FPS GET IMAGE: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/imageTest.png", leftImage);
+
+        return fps;
 
     }
 
-    public void testFrameRateGetImageUndistorted(){
+    private double testFrameRateGetImageUndistorted(){
         long start = 0;
         long stop = 0;
 
@@ -65,12 +143,13 @@ public class LeapCVPerformanceTest extends TestCase {
         double fps = NUM_FRAMES/seconds;
 
         System.out.println("FPS GET IMAGE UD: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/udTest.png", leftImage);
 
+        return fps;
     }
 
-    public void testFrameRateGetDisparity(){
+    private double testFrameRateGetDisparity(){
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
@@ -92,11 +171,13 @@ public class LeapCVPerformanceTest extends TestCase {
         double fps = NUM_FRAMES/seconds;
 
         System.out.println("FPS GET DISP: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
+
+        return fps;
     }
 
-    public void testFrameRateGetDisparity2(){
+    private double testFrameRateGetDisparity2(){
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
@@ -118,11 +199,13 @@ public class LeapCVPerformanceTest extends TestCase {
         double fps = NUM_FRAMES/seconds;
 
         System.out.println("FPS GET DISP2: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest2.png", dispMat);
+
+        return fps;
     }
 
-    public void testFrameRateGetDisparity3(){
+    private double testFrameRateGetDisparity3(){
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
@@ -144,11 +227,13 @@ public class LeapCVPerformanceTest extends TestCase {
         double fps = NUM_FRAMES/seconds;
 
         System.out.println("FPS GET DISP3: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest3.png", dispMat);
+
+        return fps;
     }
 
-    public void testFrameRateGetPointCloud(){
+    private double testFrameRateGetPointCloud(){
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
@@ -176,8 +261,10 @@ public class LeapCVPerformanceTest extends TestCase {
 
         //  Print Framerate
         System.out.println("FPS GET PC: " + fps);
-        assertTrue(fps > MIN_FRAMERATE);
+
         Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
+
+        return fps;
     }
 
 }

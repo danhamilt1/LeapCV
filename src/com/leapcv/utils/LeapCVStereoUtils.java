@@ -1,5 +1,6 @@
 package com.leapcv.utils;
 
+import com.leapcv.LeapCVStereoMatcher;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.calib3d.StereoBM;
 import org.opencv.calib3d.StereoSGBM;
@@ -17,6 +18,7 @@ import java.io.OutputStreamWriter;
 public class LeapCVStereoUtils {
 
     private StereoVar stereo = null;
+    private StereoSGBM stereo2 = null;
 
     private double levels = 3;
     private double pyrScale = 0.25;
@@ -28,16 +30,42 @@ public class LeapCVStereoUtils {
     private double maxDisp = 60;
     private double cycle = 10;
 
+
+
+    private final double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
+            {0.0, 1.0, 0.0, -2.3762e+02},
+            {0.0, 0.0, 0.0, 1.3476e+03},
+            {0.0, 0.0, 6.9349981e-01, 3.503271}};
+
     private int type = CvType.CV_8UC1;
+
+    public static enum MatcherType {
+        STEREO_BM, STEREO_SGBM, STEREO_VAR
+    }
 
     public LeapCVStereoUtils() {
         this.stereo = new StereoVar();
+        this.stereo2 = new StereoSGBM(0,
+                16,
+                6,
+                8 * 6 * 6,
+                32 * 6 * 6,
+                100,
+                0,
+                0,
+                0,
+                0,
+                true);
+    }
 
+    public LeapCVStereoMatcher createMatcher(){
+        // TODO implement factory for getting StereoMatchers.
+        return null;
     }
 
     public Mat getDisparityMap(Mat left, Mat right) {
 
-        Mat disp = new Mat(0, 0, type);
+        Mat disp = Mat.zeros(0,0,type );
 
             stereo.set_levels((int) this.levels);
             stereo.set_pyrScale(this.pyrScale);
@@ -61,7 +89,7 @@ public class LeapCVStereoUtils {
 
     public Mat getDisparityMap2(Mat left, Mat right) {
         StereoBM stereo = new StereoBM(StereoBM.FISH_EYE_PRESET, 32, 7);
-        Mat disparityMap = new Mat(0, 0, type);
+        Mat disparityMap = Mat.zeros(0,0,type);
 
         stereo.compute(left, right, disparityMap);
         Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
@@ -70,32 +98,18 @@ public class LeapCVStereoUtils {
     }
 
     public Mat getDisparityMap3(Mat left, Mat right) {
-        StereoSGBM stereo = new StereoSGBM(0,
-                16,
-                6,
-                8 * 6 * 6,
-                32 * 6 * 6,
-                100,
-                0,
-                0,
-                0,
-                0,
-                true);
-        Mat disparityMap = new Mat(0, 0, type);
+        Mat disparityMap = Mat.zeros(0,0,type);
 
-        stereo.compute(left, right, disparityMap);
+        stereo2.compute(left, right, disparityMap);
         Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
 
         return disparityMap;
     }
 
     public Mat getPointCloud(Mat disparityMap) {
-        double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
-                {0.0, 1.0, 0.0, -2.3762e+02},
-                {0.0, 0.0, 0.0, 1.3476e+03},
-                {0.0, 0.0, 6.9349981e-01, 3.503271}};
-        Mat pointCloud = new MatOfPoint3();
-        Mat Q = new Mat(4, 4, CvType.CV_32F);
+
+        Mat pointCloud = MatOfPoint3.zeros(0,0,type);
+        Mat Q = Mat.zeros(4, 4, CvType.CV_32F);
 
         for (int i = 0; i < tQ.length; ++i)
             Q.put(i, 0, tQ[i]);
