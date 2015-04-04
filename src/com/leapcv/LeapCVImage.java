@@ -1,5 +1,6 @@
 package com.leapcv;
 
+import com.leapcv.utils.LeapCVImageUtils;
 import com.leapmotion.leap.Image;
 import org.opencv.core.Mat;
 

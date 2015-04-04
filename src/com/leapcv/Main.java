@@ -1,5 +1,6 @@
 package com.leapcv;
 
+import com.leapcv.utils.LeapCVImageUtils;
 import org.opencv.core.Core;
 
 import java.io.InvalidObjectException;
@@ -16,7 +17,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        LeapCVStereoCalib sc = new LeapCVStereoCalib(leapController.getCameras().get(0), leapController.getCameras().get(1));
+        LeapCVStereoCalibrator sc = new LeapCVStereoCalibrator(leapController.getCameras().get(0), leapController.getCameras().get(1));
         sc.findChessboardCorners();
         //sc.addChessboardCorners();
         try {

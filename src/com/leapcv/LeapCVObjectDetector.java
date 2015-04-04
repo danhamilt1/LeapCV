@@ -56,20 +56,20 @@ public class LeapCVObjectDetector {
      */
     private MatOfDMatch removeOutliers(MatOfDMatch matches) {
         MatOfDMatch goodMatches = new MatOfDMatch();
-        double max_dist = 0;
-        double min_dist = 100;
+        double maxDist = 0;
+        double minDist= 100;
 
         for (int i = 0; i < matches.rows(); i++) {
             double dist = matches.toList().get(i).distance;
             System.out.println(dist);
-            if (dist < min_dist)
-                min_dist = dist;
-            if (dist > max_dist)
-                max_dist = dist;
+            if (dist < minDist)
+                minDist = dist;
+            if (dist > maxDist)
+                maxDist = dist;
         }
 
         for (int i = 0; i < matches.rows(); i++) {
-            if (matches.toList().get(i).distance < 3.5 * min_dist) {
+            if (matches.toList().get(i).distance < 3.5 * minDist) {
                 MatOfDMatch goodMatch = new MatOfDMatch(matches.toList().get(i));
                 goodMatches.push_back(goodMatch);
             }
@@ -95,13 +95,16 @@ public class LeapCVObjectDetector {
         List<MatOfDMatch> matchList = new ArrayList<>();
         matchList.add(matches);
 
-        Mat img = new Mat();
+        //  Only try and match if some features have been found
         if ((!leftKeyPoints.empty()) && (!rightKeyPoints.empty())) {
+            //  Match the features
             matcher.match(leftDescriptors, rightDescriptors, matches);
         }
 
+        //  Remove any outliers from the matches
         matches = this.removeOutliers(matches);
 
+        //  Prepare keypoints for finding perspective transform
         List<DMatch> matchesList = matches.toList();
         List<KeyPoint> leftKeyPointsList = leftKeyPoints.toList();
         List<KeyPoint> rightKeyPointsList = rightKeyPoints.toList();
@@ -118,29 +121,34 @@ public class LeapCVObjectDetector {
         objects.fromList(objectList);
         scene.fromList(sceneList);
 
-
+        //  Find the perspective transformation between the images
         Mat H = Calib3d.findHomography(objects, scene, Calib3d.RANSAC, 5);
-        Mat tmp_corners = new Mat(4, 1, CvType.CV_32FC2);
-        Mat scene_corners = new Mat(4, 1, CvType.CV_32FC2);
+        Mat objectCorners = new Mat(4, 1, CvType.CV_32FC2);
+        Mat sceneCorners = new Mat(4, 1, CvType.CV_32FC2);
 
-        tmp_corners.put(0, 0, 0, 0);
-        tmp_corners.put(1, 0, right.cols(), 0);
-        tmp_corners.put(2, 0, right.cols(), right.rows());
-        tmp_corners.put(3, 0, 0, right.rows());
+        //  Initialise perfect square of original image
+        objectCorners.put(0, 0, 0, 0);
+        objectCorners.put(1, 0, right.cols(), 0);
+        objectCorners.put(2, 0, right.cols(), right.rows());
+        objectCorners.put(3, 0, 0, right.rows());
 
-        Core.perspectiveTransform(tmp_corners, scene_corners, H);
+        //  Transform the square in objectCorners to match the transformation given in H
+        Core.perspectiveTransform(objectCorners, sceneCorners, H);
 
-        Features2d.drawMatches(left, leftKeyPoints, right, rightKeyPoints, matches, img,
+        //  Draw the matches in both images, with joining line between them, into a new image
+        Mat image = new Mat();
+        Features2d.drawMatches(left, leftKeyPoints, right, rightKeyPoints, matches, image,
                 new Scalar(255, 0, 0), new Scalar(0, 255, 255),
                 new MatOfByte(), Features2d.NOT_DRAW_SINGLE_POINTS);
 
-        Core.line(img, new Point(scene_corners.get(0, 0)), new Point(scene_corners.get(1, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(img, new Point(scene_corners.get(1, 0)), new Point(scene_corners.get(2, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(img, new Point(scene_corners.get(2, 0)), new Point(scene_corners.get(3, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(img, new Point(scene_corners.get(3, 0)), new Point(scene_corners.get(0, 0)), new Scalar(0, 255, 0), 1);
+        //  Draw square with transformed corners from sceneCorners
+        Core.line(image, new Point(sceneCorners.get(0, 0)), new Point(sceneCorners.get(1, 0)), new Scalar(0, 255, 0), 1);
+        Core.line(image, new Point(sceneCorners.get(1, 0)), new Point(sceneCorners.get(2, 0)), new Scalar(0, 255, 0), 1);
+        Core.line(image, new Point(sceneCorners.get(2, 0)), new Point(sceneCorners.get(3, 0)), new Scalar(0, 255, 0), 1);
+        Core.line(image, new Point(sceneCorners.get(3, 0)), new Point(sceneCorners.get(0, 0)), new Scalar(0, 255, 0), 1);
 
 
-        return img;
+        return image;
 
     }
 }

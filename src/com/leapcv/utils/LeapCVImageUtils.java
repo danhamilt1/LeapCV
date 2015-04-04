@@ -1,4 +1,4 @@
-package com.leapcv;
+package com.leapcv.utils;
 
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Controller.PolicyFlag;
@@ -65,9 +65,9 @@ public class LeapCVImageUtils {
     }
 
     /**
-     * Initialise the distortion matrices for use with OpenCV {@link Imgproc.remap} method.
+     * Initialise the distortion matrices for use with OpenCV {@link org.opencv.imgproc.Imgproc} method.
      *
-     * @param image
+     * @param image The {@link com.leapmotion.leap.Image} which contains the distortion data
      * @return {@code Map<String,Mat>} of X and Y matrix.
      */
     public static Map<String, Mat> initDistortionMat(Image image) {
@@ -177,9 +177,9 @@ public class LeapCVImageUtils {
     /**
      * Crops even percentage from each side of an image
      *
-     * @param image
-     * @param percentageCrop
-     * @return
+     * @param image The {@link com.leapmotion.leap.Image} to be cropped.
+     * @param percentageCrop The percentage to which the image passed in should be cropped. Between 0 and 1.
+     * @return {@link org.opencv.core.Mat}
      */
     public static Mat crop(Mat image, double percentageCrop) {
         int width;
@@ -191,14 +191,14 @@ public class LeapCVImageUtils {
         width = newImage.cols();
         height = newImage.rows();
 
-        System.out.println("width: " + width + " height: " + height);
+        //System.out.println("width: " + width + " height: " + height);
 
         x = (int) (width * percentageCrop);
         y = (int) (height * percentageCrop);
         width = width - x * 2;
         height = height - y * 2;
 
-        System.out.println(" x: " + x + " y: " + y + " width: " + width + " height: " + height);
+        //System.out.println(" x: " + x + " y: " + y + " width: " + width + " height: " + height);
 
         Rect roi = new Rect(x, y, width, height);
         return newImage.submat(roi);

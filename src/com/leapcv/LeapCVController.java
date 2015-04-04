@@ -1,5 +1,6 @@
 package com.leapcv;
 
+import com.leapcv.utils.LeapCVImageUtils;
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Controller.PolicyFlag;
 import com.leapmotion.leap.ImageList;
@@ -34,6 +35,7 @@ public class LeapCVController {
      */
     private void initLeap() {
         this.leapController.setPolicy(PolicyFlag.POLICY_IMAGES);
+        this.leapController.setPolicy(PolicyFlag.POLICY_BACKGROUND_FRAMES);
         this.leftCam = new LeapCVCamera(LeapCVCamera.CameraSide.LEFT);
         this.rightCam = new LeapCVCamera(LeapCVCamera.CameraSide.RIGHT);
 
@@ -57,14 +59,17 @@ public class LeapCVController {
     /**
      * Move the leap motion controller on to the next valid frame
      */
-    public void nextValidFrame() {
+    public void nextValidFrame(){
         final int MAX_INVALID_FRAMES = 100;
         int framesInvalid = 0;
         this.currentImages = this.leapController.images();
 
-        while (!this.currentImages.get(0).isValid() && framesInvalid < MAX_INVALID_FRAMES) {
+        while ((!this.currentImages.get(0).isValid())) {
             this.currentImages = this.leapController.images();
             ++framesInvalid;
+//            if(framesInvalid == MAX_INVALID_FRAMES){
+//                throw new Exception("Too many invalid frames");
+//            }
         }
 
         //if(framesInvalid == MAX_INVALID_FRAMES)
@@ -111,7 +116,7 @@ public class LeapCVController {
     /**
      * Get undistorted image from the right side camera
      *
-     * @return
+     * @return {@link Mat}
      */
     public Mat getRightImageUndistorted() {
         return this.rightCam.getImageUndistorted();

@@ -1,5 +1,6 @@
 package com.leapcv;
 
+import com.leapcv.utils.LeapCVImageUtils;
 import com.leapmotion.leap.Image;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
@@ -13,21 +14,16 @@ public class LeapCVImageUtilsTest extends TestCase {
     }
 
     public void testConvertToMat() throws Exception {
-        Image image = new Image();
+        LeapCVController controller = new LeapCVController();
+        Image image = Image.invalid();
         Mat imageMat = LeapCVImageUtils.convertToMat(image);
         //LeapCVController controller = new LeapCVController();
 
-        if(imageMat == null) fail();
+        if(image.isValid()) failNotEquals("isValid", false, image.isValid());
 
-        if(imageMat.width() != 0) failNotEquals("Width", 0, imageMat.width());
+        image = controller.getCameras().get(0).getCurrentImage().getImageAsLeap();
 
-        if(imageMat.height() != 0) failNotEquals("Height", 0, imageMat.height());
-
-        if(image.isValid() != true) failNotEquals("isValid", true, image.isValid());
-
-        image = Image.invalid();
-
-        if(image.isValid() != false) failNotEquals("isValid", false, image.isValid());
+        if(!image.isValid()) failNotEquals("isValid", true, image.isValid());
 
         imageMat = LeapCVImageUtils.convertToMat(image);
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class LeapCVStereoCalib {
+public class LeapCVStereoCalibrator {
 
     private List<LeapCVCamera> cameras = null;
     private List<Mat> objectPoints = null;
@@ -19,7 +19,7 @@ public class LeapCVStereoCalib {
     private Map<Integer, List<Mat>> corners = null;
     private Size patternSize = null;
 
-    public LeapCVStereoCalib(LeapCVCamera left, LeapCVCamera right) {
+    public LeapCVStereoCalibrator(LeapCVCamera left, LeapCVCamera right) {
         this.cameras = new ArrayList<>();
         this.objectPoints = new ArrayList<>();
         this.imagePoints = new HashMap<>();
