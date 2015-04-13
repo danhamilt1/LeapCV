@@ -14,10 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+/**
+ * Utility class for stereo functionality
+ */
 public class LeapCVStereoUtils {
-
-    private StereoVar stereo = null;
-    private StereoSGBM stereo2 = null;
 
     private final double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
             {0.0, 1.0, 0.0, -2.3762e+02},
@@ -26,25 +26,24 @@ public class LeapCVStereoUtils {
 
     private int type = CvType.CV_8UC1;
 
+    /**
+     * Create a matcher from the {@link com.leapcv.utils.LeapCVStereoMatcherFactory}
+     * @param matcherType {@link com.leapcv.utils.LeapCVMatcherType}
+     * @return {@link com.leapcv.utils.LeapCVStereoMatcher}
+     */
     public static LeapCVStereoMatcher createMatcher(LeapCVMatcherType matcherType){
         return LeapCVStereoMatcherFactory.create(matcherType);
     }
 
     public LeapCVStereoUtils() {
-        this.stereo = new StereoVar();
-        this.stereo2 = new StereoSGBM(-64,
-                16,
-                11,
-                2500,
-                3000,
-                100,
-                0,
-                0,
-                0,
-                0,
-                true);
+
     }
 
+    /**
+     * Generate a point cloud from a given disparity map
+     * @param disparityMap {@link org.opencv.core.Mat}
+     * @return {@link org.opencv.core.Mat} point cloud contains {@link org.opencv.core.Point3}
+     */
     public Mat getPointCloud(Mat disparityMap) {
 
         Mat pointCloud = MatOfPoint3.zeros(0, 0, type);
@@ -58,6 +57,11 @@ public class LeapCVStereoUtils {
         return pointCloud;
     }
 
+    /**
+     * Generate a point cloud from a given disparity map
+     * @param destination {@link java.io.File} in which to save the pointcloud
+     * @param pointCloud {@link org.opencv.core.Mat} pointcloud to be saved
+     */
     public void savePointCloud(Mat pointCloud, File destination) {
         try {
             // open the file for writing to (.obj file)

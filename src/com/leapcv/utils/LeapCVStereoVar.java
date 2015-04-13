@@ -6,7 +6,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 /**
- * Created by daniel on 13/04/15.
+ * Implementation of the {@link com.leapcv.utils.LeapCVStereoMatcher}
  */
 public class LeapCVStereoVar implements LeapCVStereoMatcher {
 
