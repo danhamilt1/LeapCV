@@ -44,7 +44,7 @@ public class LeapCVControllerTestDataGenerator extends TestCase {
 
 
         LeapCVStereoUtils utils = new LeapCVStereoUtils();
-        disparityImage = utils.getDisparityMap(leftImageUndistorted, rightImageUndistorted);
+//        disparityImage = utils.getDisparityMap(leftImageUndistorted, rightImageUndistorted);
 
 
         cameras = this.controller.getCameras();

@@ -1,9 +1,11 @@
-package com.leapcv;
+package com.leapcv.utils;
 
+import com.leapcv.LeapCVCamera;
 import com.leapcv.LeapCVCamera.CameraSide;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.*;
 import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class LeapCVStereoCalibrator {
+public class LeapCVCalibrationUtils {
 
     private List<LeapCVCamera> cameras = null;
     private List<Mat> objectPoints = null;
@@ -19,7 +21,7 @@ public class LeapCVStereoCalibrator {
     private Map<Integer, List<Mat>> corners = null;
     private Size patternSize = null;
 
-    public LeapCVStereoCalibrator(LeapCVCamera left, LeapCVCamera right) {
+    public LeapCVCalibrationUtils(LeapCVCamera left, LeapCVCamera right) {
         this.cameras = new ArrayList<>();
         this.objectPoints = new ArrayList<>();
         this.imagePoints = new HashMap<>();
@@ -32,11 +34,13 @@ public class LeapCVStereoCalibrator {
         System.out.println("Size 2: " + right.getImageUndistorted().size());
     }
 
+    /**
+     * Find the corners of a 9x6 chessboard
+     */
     public void findChessboardCorners() {
         for (LeapCVCamera camera : cameras) {
             Mat image = new Mat();
             camera.getImageUndistorted().copyTo(image);
-            //camera.getCurrentImage().getImageAsMat().copyTo(image);;
 
             Mat corners = new MatOfPoint2f();
             boolean cornersFound = Calib3d.findChessboardCorners(image, patternSize, (MatOfPoint2f) corners);
@@ -54,6 +58,32 @@ public class LeapCVStereoCalibrator {
         }
     }
 
+    /**
+     * Draw corners on the chessboard in an image
+     * @param image
+     * @return
+     */
+    public static Mat getImageWithChessboard(Mat image) {
+            Size patternSize = new Size(9,6);
+            Mat corners = new MatOfPoint2f();
+            Mat chessImage = Mat.zeros(image.size(), image.type());
+
+            image.copyTo(chessImage);
+
+            boolean cornersFound = Calib3d.findChessboardCorners(chessImage, patternSize, (MatOfPoint2f) corners);
+            Imgproc.cornerSubPix(chessImage, (MatOfPoint2f)corners, new Size(11,11), new Size(-1,-1), new TermCriteria(TermCriteria.MAX_ITER,30,0.1));
+
+            Imgproc.cvtColor(image,chessImage,Imgproc.COLOR_GRAY2RGB);
+            Calib3d.drawChessboardCorners(chessImage, patternSize, (MatOfPoint2f) corners, cornersFound);
+            return chessImage;
+    }
+
+    /**
+     * Generate Mat based on size of chessboard
+     * @param boardSize size of the chessboard
+     * @param squareSize size of the chessboard square sides in cm
+     * @return {@link org.opencv.core.Mat}
+     */
     public Mat create3dChessboardCorners(Size boardSize, float squareSize) {
         MatOfPoint3f corners = new MatOfPoint3f();
 
@@ -65,54 +95,41 @@ public class LeapCVStereoCalibrator {
         return corners;
     }
 
+    /**
+     * Carry out calibration procedure on the leap motion cameras
+     */
     public void calibrateLeapCameras() {
-        Mat rotMat = new Mat();
-        Mat fundMat = new Mat();
-        Mat esMat = new Mat();
+        Mat rotationMatrix = new Mat();
+        Mat fundamentalMatrix = new Mat();
+        Mat essentialMatrix = new Mat();
         Mat tranMat = new Mat();
-        Mat cMatL = new Mat();//Mat.eye(3, 3, CvType.CV_8UC1);
-        Mat dCoffL = new Mat();
-        Mat cMatR = new Mat();//Mat.eye(3, 3, CvType.CV_8UC1);
-        Mat dCoffR = new Mat();
+        Mat leftCameraMat = new Mat();
+        Mat leftCameraCoeffs = new Mat();
+        Mat rightCameraMat = new Mat();
+        Mat rightCameraCoeffs = new Mat();
 
+        //  Criteria for calibration
         TermCriteria tc = new TermCriteria(TermCriteria.MAX_ITER + TermCriteria.EPS, 100, 1e-5);
 
-        System.out.println(this.corners.get(CameraSide.LEFT.getSideId()).size());
-        System.out.println(this.corners.get(CameraSide.LEFT.getSideId()).get(0).size());
-        System.out.println(this.corners.get(CameraSide.LEFT.getSideId()).get(1).size());
-        System.out.println(this.corners.get(CameraSide.RIGHT.getSideId()).size());
-        System.out.println(this.corners.get(CameraSide.RIGHT.getSideId()).get(0).size());
-        System.out.println(this.corners.get(CameraSide.RIGHT.getSideId()).get(1).size());
-
-        System.out.println(this.objectPoints.size());
-
-        for (LeapCVCamera leapCVCamera : cameras) {
-            for (Mat list : this.corners.get(leapCVCamera.getSide().getSideId())) {
-                System.out.println(list.toString());
-                System.out.println(list.dump());
-            }
-        }
-
+        //  Calibrate cameras
         Calib3d.stereoCalibrate(objectPoints,
                 this.corners.get(CameraSide.RIGHT.getSideId()),
                 this.corners.get(CameraSide.LEFT.getSideId()),
-                cMatL,
-                dCoffL,
-                cMatR,
-                dCoffR,
+                leftCameraMat,
+                leftCameraCoeffs,
+                rightCameraMat,
+                rightCameraCoeffs,
                 cameras.get(0).getImageUndistorted().size(),
-                rotMat,
+                rotationMatrix,
                 tranMat,
-                esMat,
-                fundMat,
+                essentialMatrix,
+                fundamentalMatrix,
                 tc,
                 Calib3d.CALIB_FIX_ASPECT_RATIO +
                         Calib3d.CALIB_ZERO_TANGENT_DIST +
                         Calib3d.CALIB_SAME_FOCAL_LENGTH +
                         Calib3d.CALIB_RATIONAL_MODEL);
 
-        //Calib3d.s
     }
-
 
 }

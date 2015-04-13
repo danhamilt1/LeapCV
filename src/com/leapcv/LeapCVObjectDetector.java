@@ -16,9 +16,8 @@ public class LeapCVObjectDetector {
 
     public LeapCVObjectDetector() {
         this.extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
-        this.matcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
-        this.featureDetector = FeatureDetector.create(FeatureDetector.SIFT);
-
+        this.matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
+        this.featureDetector = FeatureDetector.create(FeatureDetector.GFTT);
         this.matchedImage = new Mat();
 
     }
@@ -27,7 +26,7 @@ public class LeapCVObjectDetector {
      * Get image key points
      *
      * @param image
-     * @return
+     * @return {@link org.opencv.core.MatOfKeyPoint}
      */
     public MatOfKeyPoint getFeatures(Mat image) {
         MatOfKeyPoint keyPts = new MatOfKeyPoint();
@@ -69,7 +68,7 @@ public class LeapCVObjectDetector {
         }
 
         for (int i = 0; i < matches.rows(); i++) {
-            if (matches.toList().get(i).distance < 3.5 * minDist) {
+            if (matches.toList().get(i).distance < 1.2 * minDist) {
                 MatOfDMatch goodMatch = new MatOfDMatch(matches.toList().get(i));
                 goodMatches.push_back(goodMatch);
             }
@@ -92,8 +91,8 @@ public class LeapCVObjectDetector {
         Mat leftDescriptors = getFeatureDescriptors(left);
         Mat rightDescriptors = getFeatureDescriptors(right);
 
-        List<MatOfDMatch> matchList = new ArrayList<>();
-        matchList.add(matches);
+//        List<MatOfDMatch> matchList = new ArrayList<>();
+//        matchList.add(matches);
 
         //  Only try and match if some features have been found
         if ((!leftKeyPoints.empty()) && (!rightKeyPoints.empty())) {

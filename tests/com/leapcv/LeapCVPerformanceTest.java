@@ -1,11 +1,14 @@
 package com.leapcv;
 
+import com.leapcv.utils.LeapCVMatcherType;
+import com.leapcv.utils.LeapCVStereoMatcher;
 import com.leapcv.utils.LeapCVStereoUtils;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -16,7 +19,7 @@ public class LeapCVPerformanceTest extends TestCase {
     Mat leftImage = null;
     Mat rightImage = null;
     List<LeapCVCamera> cameras = null;
-    final int NUM_TESTS = 20;
+    final int NUM_TESTS = 1;
     final int NUM_FRAMES = 100;
     final int MIN_FRAMERATE = 15;
 
@@ -154,13 +157,14 @@ public class LeapCVPerformanceTest extends TestCase {
         long stop = 0;
         Mat dispMat = null;
         LeapCVStereoUtils utils = new LeapCVStereoUtils();
+        LeapCVStereoMatcher stereo = LeapCVStereoUtils.createMatcher(LeapCVMatcherType.STEREO_VAR);
 
         start = System.nanoTime();
 
         for(int i = 0; i < NUM_FRAMES; ++i){
             leftImage = this.controller.getLeftImageUndistorted();
             rightImage = this.controller.getRightImageUndistorted();
-            dispMat = utils.getDisparityMap(leftImage,rightImage);
+            dispMat = stereo.compute(leftImage, rightImage);
             this.controller.nextValidFrame();
         }
 
@@ -181,14 +185,14 @@ public class LeapCVPerformanceTest extends TestCase {
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
-        LeapCVStereoUtils utils = new LeapCVStereoUtils();
+        LeapCVStereoMatcher stereo = LeapCVStereoUtils.createMatcher(LeapCVMatcherType.STEREO_BM);
 
         start = System.nanoTime();
 
         for(int i = 0; i < NUM_FRAMES; ++i){
             leftImage = this.controller.getLeftImageUndistorted();
             rightImage = this.controller.getRightImageUndistorted();
-            dispMat = utils.getDisparityMap2(leftImage, rightImage);
+            dispMat = stereo.compute(leftImage, rightImage);
             this.controller.nextValidFrame();
         }
 
@@ -209,14 +213,14 @@ public class LeapCVPerformanceTest extends TestCase {
         long start = 0;
         long stop = 0;
         Mat dispMat = null;
-        LeapCVStereoUtils utils = new LeapCVStereoUtils();
+        LeapCVStereoMatcher stereo = LeapCVStereoUtils.createMatcher(LeapCVMatcherType.STEREO_SGBM);
 
         start = System.nanoTime();
 
         for(int i = 0; i < NUM_FRAMES; ++i){
             leftImage = this.controller.getLeftImageUndistorted();
             rightImage = this.controller.getRightImageUndistorted();
-            dispMat = utils.getDisparityMap3(leftImage,rightImage);
+            dispMat = stereo.compute(leftImage, rightImage);
             this.controller.nextValidFrame();
         }
 
@@ -239,6 +243,7 @@ public class LeapCVPerformanceTest extends TestCase {
         Mat dispMat = null;
         Mat pointMat = null;
         LeapCVStereoUtils utils = new LeapCVStereoUtils();
+        LeapCVStereoMatcher stereo = LeapCVStereoUtils.createMatcher(LeapCVMatcherType.STEREO_VAR);
 
         //  Start timer
         start = System.nanoTime();
@@ -246,7 +251,7 @@ public class LeapCVPerformanceTest extends TestCase {
         for(int i = 0; i < NUM_FRAMES; ++i){
             leftImage = this.controller.getLeftImageUndistorted();
             rightImage = this.controller.getRightImageUndistorted();
-            dispMat = utils.getDisparityMap(leftImage,rightImage);
+            dispMat = stereo.compute(leftImage,rightImage);
             pointMat = utils.getPointCloud(dispMat);
             this.controller.nextValidFrame();
         }

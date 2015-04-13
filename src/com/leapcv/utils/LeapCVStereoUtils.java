@@ -1,6 +1,5 @@
 package com.leapcv.utils;
 
-import com.leapcv.LeapCVStereoMatcher;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.calib3d.StereoBM;
 import org.opencv.calib3d.StereoSGBM;
@@ -20,18 +19,6 @@ public class LeapCVStereoUtils {
     private StereoVar stereo = null;
     private StereoSGBM stereo2 = null;
 
-    private double levels = 3;
-    private double pyrScale = 0.25;
-    private double polyN = 7;
-    private double polySigma = 1.5;
-    private double fi = 1;
-    private double lambda = 1;
-    private double minDisp = 0;
-    private double maxDisp = 60;
-    private double cycle = 10;
-
-
-
     private final double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
             {0.0, 1.0, 0.0, -2.3762e+02},
             {0.0, 0.0, 0.0, 1.3476e+03},
@@ -39,17 +26,17 @@ public class LeapCVStereoUtils {
 
     private int type = CvType.CV_8UC1;
 
-    public static enum MatcherType {
-        STEREO_BM, STEREO_SGBM, STEREO_VAR
+    public static LeapCVStereoMatcher createMatcher(LeapCVMatcherType matcherType){
+        return LeapCVStereoMatcherFactory.create(matcherType);
     }
 
     public LeapCVStereoUtils() {
         this.stereo = new StereoVar();
-        this.stereo2 = new StereoSGBM(0,
+        this.stereo2 = new StereoSGBM(-64,
                 16,
-                6,
-                8 * 6 * 6,
-                32 * 6 * 6,
+                11,
+                2500,
+                3000,
                 100,
                 0,
                 0,
@@ -58,57 +45,9 @@ public class LeapCVStereoUtils {
                 true);
     }
 
-    public LeapCVStereoMatcher createMatcher(){
-        // TODO implement factory for getting StereoMatchers.
-        return null;
-    }
-
-    public Mat getDisparityMap(Mat left, Mat right) {
-
-        Mat disp = Mat.zeros(0,0,type );
-
-            stereo.set_levels((int) this.levels);
-            stereo.set_pyrScale(this.pyrScale);
-            stereo.set_nIt((int) this.cycle);
-            //stereo.set_cycle((int)this.cycle);
-            stereo.set_penalization(StereoVar.PENALIZATION_TICHONOV);
-            //stereo.set_cycle(StereoVar.CYCLE_V);
-            stereo.set_flags(StereoVar.USE_AUTO_PARAMS);//StereoVar.USE_SMART_ID | StereoVar.USE_MEDIAN_FILTERING | StereoVar.USE_EQUALIZE_HIST);
-            stereo.set_poly_n((int) this.polyN);
-            stereo.set_poly_sigma(this.polySigma);
-            stereo.set_fi((float) this.fi);
-            stereo.set_lambda((float) this.lambda);
-            stereo.set_minDisp((int) this.minDisp);
-            stereo.set_maxDisp((int) this.maxDisp);
-
-        stereo.compute(right, left, disp);
-        Core.normalize(disp, disp, 0, 255, Core.NORM_MINMAX);
-
-        return disp;
-    }
-
-    public Mat getDisparityMap2(Mat left, Mat right) {
-        StereoBM stereo = new StereoBM(StereoBM.FISH_EYE_PRESET, 32, 7);
-        Mat disparityMap = Mat.zeros(0,0,type);
-
-        stereo.compute(left, right, disparityMap);
-        Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
-
-        return disparityMap;
-    }
-
-    public Mat getDisparityMap3(Mat left, Mat right) {
-        Mat disparityMap = Mat.zeros(0,0,type);
-
-        stereo2.compute(left, right, disparityMap);
-        Core.normalize(disparityMap, disparityMap, 0, 255, Core.NORM_MINMAX);
-
-        return disparityMap;
-    }
-
     public Mat getPointCloud(Mat disparityMap) {
 
-        Mat pointCloud = MatOfPoint3.zeros(0,0,type);
+        Mat pointCloud = MatOfPoint3.zeros(0, 0, type);
         Mat Q = Mat.zeros(4, 4, CvType.CV_32F);
 
         for (int i = 0; i < tQ.length; ++i)
@@ -119,106 +58,36 @@ public class LeapCVStereoUtils {
         return pointCloud;
     }
 
-    public void savePointCloud(Mat pcl, File destination) {
-        //publishProgress("Saving .obj file");
+    public void savePointCloud(Mat pointCloud, File destination) {
         try {
             // open the file for writing to (.obj file)
-            File datei = destination;
-            if (!datei.exists())
-                datei.createNewFile();
+            File output = destination;
+            if (!output.exists())
+                output.createNewFile();
 
-            FileOutputStream outStream = new FileOutputStream(datei);
-            OutputStreamWriter oStream = new OutputStreamWriter(outStream);
-            System.out.println(pcl.size().width);
-            System.out.println(pcl.size().height);
-            for (int w = 0; w < pcl.size().width; w++) {
-                for (int h = 0; h < pcl.size().height; h++) {
-                    double[] values = new double[1];
-                    values = pcl.get(h, w);
+            FileOutputStream fileOutputStream = new FileOutputStream(output);
+            OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
+            System.out.println(pointCloud.size().width);
+            System.out.println(pointCloud.size().height);
+
+            for (int w = 0; w < pointCloud.size().width; w++) {
+                for (int h = 0; h < pointCloud.size().height; h++) {
+
+                    //  Get XYZ from pointCloud
+                    double[] values = pointCloud.get(h, w);
                     if (values != null)
+                        //  Append XYZ to file
                         if (values.length >= 3)
-                            oStream.append("v " + String.valueOf(values[0]) + " " + String.valueOf(values[1]) + " " + String.valueOf(values[2]) + " " + "\n");
+                            writer.append("v " + String.valueOf(values[0]) + " " + String.valueOf(values[1]) + " " + String.valueOf(values[2]) + " " + "\n");
                 }
             }
-            oStream.close();
-            outStream.close();
+            writer.close();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-    }
-
-    public double getCycle() {
-        return cycle;
-    }
-
-    public void setCycle(double cycle) {
-        this.cycle = cycle;
-    }
-
-    public double getLevels() {
-        return levels;
-    }
-
-    public void setLevels(double levels) {
-        this.levels = levels;
-    }
-
-    public double getPyrScale() {
-        return pyrScale;
-    }
-
-    public void setPyrScale(double pyrScale) {
-        this.pyrScale = pyrScale;
-    }
-
-    public double getPolyN() {
-        return polyN;
-    }
-
-    public void setPolyN(double polyN) {
-        this.polyN = polyN;
-    }
-
-    public double getPolySigma() {
-        return polySigma;
-    }
-
-    public void setPolySigma(double polySigma) {
-        this.polySigma = polySigma;
-    }
-
-    public double getFi() {
-        return fi;
-    }
-
-    public void setFi(double fi) {
-        this.fi = fi;
-    }
-
-    public double getLambda() {
-        return lambda;
-    }
-
-    public void setLambda(double lambda) {
-        this.lambda = lambda;
-    }
-
-    public double getMinDisp() {
-        return minDisp;
-    }
-
-    public void setMinDisp(double minDisp) {
-        this.minDisp = minDisp;
-    }
-
-    public double getMaxDisp() {
-        return maxDisp;
-    }
-
-    public void setMaxDisp(double maxDisp) {
-        this.maxDisp = maxDisp;
     }
 
 }

@@ -48,18 +48,24 @@ public class LeapCVControllerTest extends TestCase {
     }
 
     public void testGetCameras() throws Exception {
-        this.controller.getCameras();
+        this.cameras = this.controller.getCameras();
         assertNotNull(cameras);
 
         assertEquals(2, cameras.size());
         assertEquals("Cameras in wrong order", LeapCVCamera.LEFT_ID, cameras.get(LeapCVCamera.LEFT_ID).getSide().getSideId());
         assertEquals("Cameras in wrong order",LeapCVCamera.RIGHT_ID, cameras.get(LeapCVCamera.RIGHT_ID).getSide().getSideId());
         assertNotSame("Cameras same", cameras.get(0), cameras.get(1));
+
+        leftImage = this.controller.getLeftImage();
+        rightImage = this.controller.getRightImage();
+        leftImageUndistorted = this.controller.getLeftImageUndistorted();
+        rightImageUndistorted = this.controller.getRightImageUndistorted();
+
         this.writeImages();
     }
 
     private void writeImages(){
-        final String path = "./test_outputs/";
+        final String path = "/Volumes/macintosh_hdd/Users/daniel/Desktop/disp/testData/";
         Highgui.imwrite(path + "leftImage.png", leftImage);
         Highgui.imwrite(path + "rightImage.png", rightImage);
         Highgui.imwrite(path + "leftImageUndistorted.png", leftImageUndistorted);
