@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Utility class for camera calibration
+ */
 public class LeapCVCalibrationUtils {
 
     private List<LeapCVCamera> cameras = null;

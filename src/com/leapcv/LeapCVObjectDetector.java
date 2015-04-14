@@ -7,6 +7,9 @@ import org.opencv.features2d.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for carrying out object detection
+ */
 public class LeapCVObjectDetector {
     private DescriptorExtractor extractor;
     private DescriptorMatcher matcher;
@@ -90,9 +93,6 @@ public class LeapCVObjectDetector {
         MatOfKeyPoint rightKeyPoints = getFeatures(right);
         Mat leftDescriptors = getFeatureDescriptors(left);
         Mat rightDescriptors = getFeatureDescriptors(right);
-
-//        List<MatOfDMatch> matchList = new ArrayList<>();
-//        matchList.add(matches);
 
         //  Only try and match if some features have been found
         if ((!leftKeyPoints.empty()) && (!rightKeyPoints.empty())) {

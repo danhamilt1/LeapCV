@@ -30,8 +30,8 @@ public class LeapCVCamera {
         }
     }
 
-//    protected static final int LEFT_ID = 0;
-//    protected static final int RIGHT_ID = 1;
+    protected static final int LEFT_ID = 0;
+    protected static final int RIGHT_ID = 1;
 
     private Mat distortionX = null;
     private Mat distortionY = null;

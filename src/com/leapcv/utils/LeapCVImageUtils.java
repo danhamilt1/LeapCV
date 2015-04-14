@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Utility class for images.
+ */
 public class LeapCVImageUtils {
     public static final int IMAGE_WIDTH = 640;
     public static final int IMAGE_HEIGHT = 240;
@@ -152,14 +155,12 @@ public class LeapCVImageUtils {
     }
 
     /**
-     * Turn a {@link Mat} into a {@link WritableImage}, useful for displaying in JavaFX
-     *
-     * @param image - {@link Mat}
-     * @return {@link WritableImage}
+     * Turn a {@link Mat} into a {@link javafx.scene.image.Image}, useful for displaying in JavaFX
      */
     public static javafx.scene.image.Image matToWritableImage(Mat image) {
         MatOfByte byteMat = new MatOfByte();
         Highgui.imencode(".bmp", image, byteMat);
+
         return new javafx.scene.image.Image(new ByteArrayInputStream(byteMat.toArray()));
     }
 

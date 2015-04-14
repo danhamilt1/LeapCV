@@ -4,6 +4,9 @@ import com.leapcv.utils.LeapCVImageUtils;
 import com.leapmotion.leap.Image;
 import org.opencv.core.Mat;
 
+/**
+ * Image class for leap motion and OpenCV types
+ */
 public class LeapCVImage extends com.leapmotion.leap.Image {
 
     private Mat imageAsMat;
@@ -14,6 +17,10 @@ public class LeapCVImage extends com.leapmotion.leap.Image {
         this.imageAsMat = LeapCVImageUtils.convertToMat(image);
     }
 
+    /**
+     * Get the image as a {@link org.opencv.core.Mat}
+     * @return {@link org.opencv.core.Mat}
+     */
     public Mat getImageAsMat() {
         return imageAsMat;
     }
@@ -22,6 +29,10 @@ public class LeapCVImage extends com.leapmotion.leap.Image {
         this.imageAsMat = imageAsMat;
     }
 
+    /**
+     * Get the image as a {@link com.leapmotion.leap.Image}
+     * @return {@link com.leapmotion.leap.Image}
+     */
     public Image getImageAsLeap() {
         return imageAsLeap;
     }
@@ -30,6 +41,10 @@ public class LeapCVImage extends com.leapmotion.leap.Image {
         this.imageAsLeap = imageAsLeap;
     }
 
+    /**
+     * Set the image
+     * @param image {@link com.leapmotion.leap.Image}
+     */
     public void setImage(Image image) {
         this.imageAsLeap = image;
         this.imageAsMat = LeapCVImageUtils.convertToMat(image);
