@@ -7,11 +7,13 @@ import org.opencv.core.Mat;
 /**
  * Image class for leap motion and OpenCV types
  */
-public class LeapCVImage extends com.leapmotion.leap.Image {
+public class LeapCVImage extends Mat {
 
     private Mat imageAsMat;
     private Image imageAsLeap;
 
+    //TODO Inherit Mat constructors and implement throughout the framework so that it isn't using raw Mat Type
+    
     public LeapCVImage(Image image) {
         this.imageAsLeap = image;
         this.imageAsMat = LeapCVImageUtils.convertToMat(image);
