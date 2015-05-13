@@ -7,7 +7,7 @@ import org.opencv.core.Mat;
 /**
  * Image class for leap motion and OpenCV types
  */
-public class LeapCVImage extends Mat {
+public class LeapCVImage {
 
     private Mat imageAsMat;
     private Image imageAsLeap;

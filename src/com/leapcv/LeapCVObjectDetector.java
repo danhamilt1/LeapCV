@@ -18,9 +18,26 @@ public class LeapCVObjectDetector {
     private Mat matchedImage;
 
     public LeapCVObjectDetector() {
-        this.extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
-        this.matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        this.featureDetector = FeatureDetector.create(FeatureDetector.GFTT);
+//        this.extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
+//        this.matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
+//        this.featureDetector = FeatureDetector.create(FeatureDetector.GFTT);
+        //1.5
+
+//        this.extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
+//        this.matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
+//        this.featureDetector = FeatureDetector.create(FeatureDetector.SIFT);
+        //2
+
+        this.extractor = DescriptorExtractor.create(DescriptorExtractor.SURF);
+        this.matcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
+        this.featureDetector = FeatureDetector.create(FeatureDetector.SIFT);
+        //3
+
+//        this.extractor = DescriptorExtractor.create(DescriptorExtractor.ORB);
+//        this.matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
+//        this.featureDetector = FeatureDetector.create(FeatureDetector.ORB);
+        //3
+
         this.matchedImage = new Mat();
 
     }
@@ -63,7 +80,7 @@ public class LeapCVObjectDetector {
 
         for (int i = 0; i < matches.rows(); i++) {
             double dist = matches.toList().get(i).distance;
-            System.out.println(dist);
+            //System.out.println(dist);
             if (dist < minDist)
                 minDist = dist;
             if (dist > maxDist)
@@ -71,7 +88,7 @@ public class LeapCVObjectDetector {
         }
 
         for (int i = 0; i < matches.rows(); i++) {
-            if (matches.toList().get(i).distance < 1.2 * minDist) {
+            if (matches.toList().get(i).distance < 3 * minDist) {
                 MatOfDMatch goodMatch = new MatOfDMatch(matches.toList().get(i));
                 goodMatches.push_back(goodMatch);
             }

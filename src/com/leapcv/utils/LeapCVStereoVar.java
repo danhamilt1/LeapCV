@@ -14,11 +14,11 @@ public class LeapCVStereoVar implements LeapCVStereoMatcher {
     private double pyrScale = 0.25;
     private double polyN = 7;
     private double polySigma = 1.5;
-    private double fi = 0.9;
+    private double fi = 0.5;
     private double lambda = 10;
-    private double minDisp = 30;
-    private double maxDisp = 50;
-    private double cycle = 10;
+    private double minDisp = -80;
+    private double maxDisp = 0;
+    private double cycle = 150;
 
     private StereoVar stereo;
 
@@ -52,7 +52,7 @@ public class LeapCVStereoVar implements LeapCVStereoMatcher {
     public Mat compute(Mat left, Mat right) {
         Mat disparity = Mat.zeros(left.size(), CvType.CV_8UC1);
 
-        stereo.compute(left, right, disparity);
+        stereo.compute(right, left, disparity);
         Core.normalize(disparity, disparity, 0, 255, Core.NORM_MINMAX);
 
         return disparity;

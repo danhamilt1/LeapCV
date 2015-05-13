@@ -50,26 +50,26 @@ public class LeapCVImageUtilsTest extends TestCase {
         assertTrue(image.width() == imageTest.getWidth());
         assertTrue(image.height() == imageTest.getHeight());
     }
+//
+//    public void testToWritableImage() throws Exception {
+//        LeapCVController controller = new LeapCVController();
+//        Image image = controller.getCameras().get(0).getCurrentImage().getImageAsLeap();
+//        Mat imageMat = LeapCVImageUtils.convertToMat(image);
+//        javafx.scene.image.Image writableImage =  LeapCVImageUtils.matToWritableImage(imageMat);
+//
+//        assertTrue(image.width() == writableImage.getWidth());
+//        assertTrue(image.height() == writableImage.getHeight());
+//    }
 
-    public void testToWritableImage() throws Exception {
-        LeapCVController controller = new LeapCVController();
-        Image image = controller.getCameras().get(0).getCurrentImage().getImageAsLeap();
-        Mat imageMat = LeapCVImageUtils.convertToMat(image);
-        javafx.scene.image.Image writableImage =  LeapCVImageUtils.matToWritableImage(imageMat);
-
-        assertTrue(image.width() == writableImage.getWidth());
-        assertTrue(image.height() == writableImage.getHeight());
-    }
-
-    public void testMatToWritableImage() throws Exception {
-        LeapCVController controller = new LeapCVController();
-        Mat image = controller.getLeftImage();
-
-        javafx.scene.image.Image writableImage = LeapCVImageUtils.matToWritableImage(image);
-
-        assertTrue(image.width() == writableImage.getWidth());
-        assertTrue(image.height() == writableImage.getHeight());
-    }
+//    public void testMatToWritableImage() throws Exception {
+//        LeapCVController controller = new LeapCVController();
+//        Mat image = controller.getLeftImage();
+//
+//        javafx.scene.image.Image writableImage = LeapCVImageUtils.matToWritableImage(image);
+//
+//        assertTrue(image.width() == writableImage.getWidth());
+//        assertTrue(image.height() == writableImage.getHeight());
+//    }
 
     public void testGaussianBlur() throws Exception {
         LeapCVController controller = new LeapCVController();

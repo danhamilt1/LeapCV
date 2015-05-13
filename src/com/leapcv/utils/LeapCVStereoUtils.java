@@ -19,12 +19,12 @@ import java.io.OutputStreamWriter;
  */
 public class LeapCVStereoUtils {
 
-    private final double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
+    private static final double[][] tQ = {{1.0, 0.0, 0.0, -5.0638e+02},
             {0.0, 1.0, 0.0, -2.3762e+02},
             {0.0, 0.0, 0.0, 1.3476e+03},
             {0.0, 0.0, 6.9349981e-01, 3.503271}};
 
-    private int type = CvType.CV_8UC1;
+    private static int type = CvType.CV_8UC1;
 
     /**
      * Create a matcher from the {@link com.leapcv.utils.LeapCVStereoMatcherFactory}
@@ -44,7 +44,7 @@ public class LeapCVStereoUtils {
      * @param disparityMap {@link org.opencv.core.Mat}
      * @return {@link org.opencv.core.Mat} point cloud contains {@link org.opencv.core.Point3}
      */
-    public Mat getPointCloud(Mat disparityMap) {
+    public static Mat getPointCloud(Mat disparityMap) {
 
         Mat pointCloud = MatOfPoint3.zeros(0, 0, type);
         Mat Q = Mat.zeros(4, 4, CvType.CV_32F);
@@ -62,7 +62,7 @@ public class LeapCVStereoUtils {
      * @param destination {@link java.io.File} in which to save the pointcloud
      * @param pointCloud {@link org.opencv.core.Mat} pointcloud to be saved
      */
-    public void savePointCloud(Mat pointCloud, File destination) {
+    public static void savePointCloud(Mat pointCloud, File destination) {
         try {
             // open the file for writing to (.obj file)
             File output = destination;

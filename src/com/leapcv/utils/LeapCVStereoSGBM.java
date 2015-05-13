@@ -15,11 +15,11 @@ public class LeapCVStereoSGBM implements LeapCVStereoMatcher {
     private final LeapCVMatcherType matcherType;
 
     public LeapCVStereoSGBM() {
-        this.stereo = new StereoSGBM(-64,
-                16,
+        this.stereo = new StereoSGBM(1,
+                32,
                 11,
-                2500,
-                3000,
+                318162,
+                523000,
                 100,
                 0,
                 0,
@@ -41,7 +41,7 @@ public class LeapCVStereoSGBM implements LeapCVStereoMatcher {
     public Mat compute(Mat left, Mat right) {
         Mat disparity = Mat.zeros(left.size(), CvType.CV_8UC1);
 
-        stereo.compute(left, right, disparity);
+        stereo.compute(right, left, disparity);
         Core.normalize(disparity, disparity, 0, 255, Core.NORM_MINMAX);
 
         return disparity;

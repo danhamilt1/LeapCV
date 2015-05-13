@@ -157,8 +157,11 @@ public class LeapCVImageUtils {
     /**
      * Turn a {@link Mat} into a {@link javafx.scene.image.Image}, useful for displaying in JavaFX
      */
-    public static javafx.scene.image.Image matToWritableImage(Mat image) {
+    public static javafx.scene.image.Image matToWritableImage(Mat image, double width, double height) {
         MatOfByte byteMat = new MatOfByte();
+
+        Imgproc.resize(image, image, new Size(width, height));
+
         Highgui.imencode(".bmp", image, byteMat);
 
         return new javafx.scene.image.Image(new ByteArrayInputStream(byteMat.toArray()));
