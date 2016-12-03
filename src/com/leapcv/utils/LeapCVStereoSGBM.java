@@ -15,7 +15,8 @@ public class LeapCVStereoSGBM implements LeapCVStereoMatcher {
     private final LeapCVMatcherType matcherType;
 
     public LeapCVStereoSGBM() {
-        this.stereo = new StereoSGBM(1,
+
+        this.stereo = StereoSGBM.create(1,
                 32,
                 11,
                 318162,
@@ -25,7 +26,7 @@ public class LeapCVStereoSGBM implements LeapCVStereoMatcher {
                 0,
                 0,
                 0,
-                true);
+                StereoSGBM.MODE_HH);
 
         this.matcherType = LeapCVMatcherType.STEREO_SGBM;
 

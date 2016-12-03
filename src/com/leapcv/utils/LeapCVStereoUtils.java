@@ -3,7 +3,6 @@ package com.leapcv.utils;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.calib3d.StereoBM;
 import org.opencv.calib3d.StereoSGBM;
-import org.opencv.contrib.StereoVar;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;

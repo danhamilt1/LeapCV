@@ -7,7 +7,7 @@ import com.leapmotion.leap.Vector;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import org.opencv.core.*;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.photo.Photo;
 
@@ -162,7 +162,7 @@ public class LeapCVImageUtils {
 
         Imgproc.resize(image, image, new Size(width, height));
 
-        Highgui.imencode(".bmp", image, byteMat);
+        Imgcodecs.imencode(".bmp", image, byteMat);
 
         return new javafx.scene.image.Image(new ByteArrayInputStream(byteMat.toArray()));
     }

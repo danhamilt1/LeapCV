@@ -3,6 +3,7 @@ package com.leapcv;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.*;
 import org.opencv.features2d.*;
+import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,10 +159,11 @@ public class LeapCVObjectDetector {
                 new MatOfByte(), Features2d.NOT_DRAW_SINGLE_POINTS);
 
         //  Draw square with transformed corners from sceneCorners
-        Core.line(image, new Point(sceneCorners.get(0, 0)), new Point(sceneCorners.get(1, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(image, new Point(sceneCorners.get(1, 0)), new Point(sceneCorners.get(2, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(image, new Point(sceneCorners.get(2, 0)), new Point(sceneCorners.get(3, 0)), new Scalar(0, 255, 0), 1);
-        Core.line(image, new Point(sceneCorners.get(3, 0)), new Point(sceneCorners.get(0, 0)), new Scalar(0, 255, 0), 1);
+
+        Imgproc.line(image, new Point(sceneCorners.get(0, 0)), new Point(sceneCorners.get(1, 0)), new Scalar(0, 255, 0), 1);
+        Imgproc.line(image, new Point(sceneCorners.get(1, 0)), new Point(sceneCorners.get(2, 0)), new Scalar(0, 255, 0), 1);
+        Imgproc.line(image, new Point(sceneCorners.get(2, 0)), new Point(sceneCorners.get(3, 0)), new Scalar(0, 255, 0), 1);
+        Imgproc.line(image, new Point(sceneCorners.get(3, 0)), new Point(sceneCorners.get(0, 0)), new Scalar(0, 255, 0), 1);
 
 
         return image;

@@ -4,7 +4,7 @@ import com.leapcv.utils.LeapCVStereoUtils;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import java.util.List;
 
@@ -58,12 +58,12 @@ public class LeapCVControllerTestDataGenerator extends TestCase {
     }
 
     private void writeImages(){
-        final String path = "/Volumes/macintosh_hdd/Users/daniel/Desktop/Report/test_images/";
-        Highgui.imwrite(path + "leftImage.png", leftImage);
-        Highgui.imwrite(path + "rightImage.png", rightImage);
-        Highgui.imwrite(path + "leftImageUndistorted.png", leftImageUndistorted);
-        Highgui.imwrite(path + "rightImageUndistorted.png", rightImageUndistorted);
-        Highgui.imwrite(path + "disparityImage.png", disparityImage);
+        final String path = Paths.ROOT_PATH;
+        Imgcodecs.imwrite(path + "leftImage.png", leftImage);
+        Imgcodecs.imwrite(path + "rightImage.png", rightImage);
+        Imgcodecs.imwrite(path + "leftImageUndistorted.png", leftImageUndistorted);
+        Imgcodecs.imwrite(path + "rightImageUndistorted.png", rightImageUndistorted);
+    //    Imgcodecs.imwrite(path + "disparityImage.png", disparityImage);
 
     }
 }

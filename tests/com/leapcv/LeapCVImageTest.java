@@ -2,7 +2,6 @@ package com.leapcv;
 
 import junit.framework.TestCase;
 import org.opencv.core.Core;
-import org.opencv.highgui.Highgui;
 
 public class LeapCVImageTest extends TestCase {
 

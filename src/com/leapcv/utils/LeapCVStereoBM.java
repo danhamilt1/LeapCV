@@ -16,7 +16,7 @@ public class LeapCVStereoBM implements LeapCVStereoMatcher {
     private final LeapCVMatcherType matcherType;
 
     public LeapCVStereoBM() {
-        this.stereo = new StereoBM(StereoBM.FISH_EYE_PRESET, 32, 7);
+        this.stereo = StereoBM.create(32, 7);
 
         this.matcherType = LeapCVMatcherType.STEREO_BM;
 

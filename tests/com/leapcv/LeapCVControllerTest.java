@@ -1,10 +1,9 @@
 package com.leapcv;
 
-import com.leapcv.LeapCVController;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ public class LeapCVControllerTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
+        System.out.println(Core.NATIVE_LIBRARY_NAME);
+        System.out.println(System.getProperty("java.library.path"));
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         this.controller = new LeapCVController();
     }
@@ -65,11 +66,11 @@ public class LeapCVControllerTest extends TestCase {
     }
 
     private void writeImages(){
-        final String path = "/Volumes/macintosh_hdd/Users/daniel/Desktop/disp/testData/";
-        Highgui.imwrite(path + "leftImage.png", leftImage);
-        Highgui.imwrite(path + "rightImage.png", rightImage);
-        Highgui.imwrite(path + "leftImageUndistorted.png", leftImageUndistorted);
-        Highgui.imwrite(path + "rightImageUndistorted.png", rightImageUndistorted);
+        final String path = Paths.ROOT_PATH + "/disp/testData/";
+        Imgcodecs.imwrite(path + "leftImage.png", leftImage);
+        Imgcodecs.imwrite(path + "rightImage.png", rightImage);
+        Imgcodecs.imwrite(path + "leftImageUndistorted.png", leftImageUndistorted);
+        Imgcodecs.imwrite(path + "rightImageUndistorted.png", rightImageUndistorted);
 
     }
 }

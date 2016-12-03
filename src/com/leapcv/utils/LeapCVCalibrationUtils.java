@@ -4,7 +4,7 @@ import com.leapcv.LeapCVCamera;
 import com.leapcv.LeapCVCamera.CameraSide;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.*;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class LeapCVCalibrationUtils {
             Mat corners = new MatOfPoint2f();
             boolean cornersFound = Calib3d.findChessboardCorners(image, patternSize, (MatOfPoint2f) corners);
             Calib3d.drawChessboardCorners(image, patternSize, (MatOfPoint2f) corners, cornersFound);
-            Highgui.imwrite("chess_" + image.toString() + ".png", image);
+            Imgcodecs.imwrite("chess_" + image.toString() + ".png", image);
 
             if (this.corners.get(camera.getSide().getSideId()) == null) {
                 this.corners.put(camera.getSide().getSideId(), new ArrayList<Mat>());
@@ -113,25 +113,25 @@ public class LeapCVCalibrationUtils {
 
         //  Criteria for calibration
         TermCriteria tc = new TermCriteria(TermCriteria.MAX_ITER + TermCriteria.EPS, 100, 1e-5);
-
-        //  Calibrate cameras
-        Calib3d.stereoCalibrate(objectPoints,
-                this.corners.get(CameraSide.RIGHT.getSideId()),
-                this.corners.get(CameraSide.LEFT.getSideId()),
-                leftCameraMat,
-                leftCameraCoeffs,
-                rightCameraMat,
-                rightCameraCoeffs,
-                cameras.get(0).getImageUndistorted().size(),
-                rotationMatrix,
-                tranMat,
-                essentialMatrix,
-                fundamentalMatrix,
-                tc,
-                Calib3d.CALIB_FIX_ASPECT_RATIO +
-                        Calib3d.CALIB_ZERO_TANGENT_DIST +
-                        Calib3d.CALIB_SAME_FOCAL_LENGTH +
-                        Calib3d.CALIB_RATIONAL_MODEL);
+//
+//        //  Calibrate cameras
+//        Calib3d.stereoCalibrate(objectPoints,
+//                this.corners.get(CameraSide.RIGHT.getSideId()),
+//                this.corners.get(CameraSide.LEFT.getSideId()),
+//                leftCameraMat,
+//                leftCameraCoeffs,
+//                rightCameraMat,
+//                rightCameraCoeffs,
+//                cameras.get(0).getImageUndistorted().size(),
+//                rotationMatrix,
+//                tranMat,
+//                essentialMatrix,
+//                fundamentalMatrix,
+//                tc,
+//                Calib3d.CALIB_FIX_ASPECT_RATIO +
+//                        Calib3d.CALIB_ZERO_TANGENT_DIST +
+//                        Calib3d.CALIB_SAME_FOCAL_LENGTH +
+//                        Calib3d.CALIB_RATIONAL_MODEL);
 
     }
 

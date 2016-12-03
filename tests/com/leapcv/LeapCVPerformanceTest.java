@@ -6,7 +6,7 @@ import com.leapcv.utils.LeapCVStereoUtils;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -121,7 +121,7 @@ public class LeapCVPerformanceTest extends TestCase {
 
         System.out.println("FPS GET IMAGE: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/imageTest.png", leftImage);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/imageTest.png", leftImage);
 
         return fps;
 
@@ -147,7 +147,7 @@ public class LeapCVPerformanceTest extends TestCase {
 
         System.out.println("FPS GET IMAGE UD: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/udTest.png", leftImage);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/udTest.png", leftImage);
 
         return fps;
     }
@@ -176,7 +176,7 @@ public class LeapCVPerformanceTest extends TestCase {
 
         System.out.println("FPS GET DISP: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
 
         return fps;
     }
@@ -204,7 +204,7 @@ public class LeapCVPerformanceTest extends TestCase {
 
         System.out.println("FPS GET DISP2: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest2.png", dispMat);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest2.png", dispMat);
 
         return fps;
     }
@@ -232,7 +232,7 @@ public class LeapCVPerformanceTest extends TestCase {
 
         System.out.println("FPS GET DISP3: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest3.png", dispMat);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest3.png", dispMat);
 
         return fps;
     }
@@ -267,7 +267,7 @@ public class LeapCVPerformanceTest extends TestCase {
         //  Print Framerate
         System.out.println("FPS GET PC: " + fps);
 
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/dispTest.png", dispMat);
 
         return fps;
     }

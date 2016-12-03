@@ -12,7 +12,8 @@ public class LeapCVStereoMatcherFactory {
      */
     public static LeapCVStereoMatcher create(LeapCVMatcherType type){
         if (matcher == null) {
-            matcher = new LeapCVStereoVar();
+            //matcher = new LeapCVStereoVar();
+            matcher = new LeapCVStereoBM();
         }
 
         if(matcher.getType() != type) {
@@ -24,7 +25,7 @@ public class LeapCVStereoMatcherFactory {
                     matcher = new LeapCVStereoSGBM();
                     break;
                 case STEREO_VAR:
-                    matcher = new LeapCVStereoVar();
+                    //matcher = new LeapCVStereoVar();
                     break;
             }
         }

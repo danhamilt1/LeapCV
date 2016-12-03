@@ -4,7 +4,7 @@ import com.leapcv.utils.LeapCVCalibrationUtils;
 import junit.framework.TestCase;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import java.util.List;
 
@@ -28,14 +28,14 @@ public class LeapCVChessboardTest extends TestCase {
 
     public void testGetImage(){
         Mat image = this.controller.getLeftImage();
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/1.png", image);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/1.png", image);
         Mat chess = LeapCVCalibrationUtils.getImageWithChessboard(image);
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/4.png", chess);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/4.png", chess);
 
         image = this.controller.getLeftImageUndistorted();
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/3.png", image);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/3.png", image);
         chess = LeapCVCalibrationUtils.getImageWithChessboard(image);
-        Highgui.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/5.png", chess);
+        Imgcodecs.imwrite("/Volumes/macintosh_hdd/Users/daniel/Desktop/5.png", chess);
 
     }
 
