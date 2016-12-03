@@ -21,6 +21,6 @@ This has been built and tested using version 2.2.3 of the LeapSDK.
 
 You will need the Leap Motion SDK and point your project at the jar and the native libraries for the SDK.
 
+###Caveat
 
-
-I haven't had time to work on this for ages and I know it is really bad... For an example of getting this one running have a look at: https://github.com/danhamilt1/LeapCVTestHarness
+I haven't had time to work on this for ages and it is pretty terribly written... For an example of getting this one running have a look at: https://github.com/danhamilt1/LeapCVTestHarness
